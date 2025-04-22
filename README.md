@@ -4,7 +4,7 @@ LinguoProject(name) allows users to enroll in language courses, track progress, 
 
 ## Team
 | UWA ID | Name | GitHub Username |
-|24XXXXXX|------|-----------------|
+
 
 
 ## Setup
