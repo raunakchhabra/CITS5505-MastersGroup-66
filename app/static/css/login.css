@@ -85,7 +85,8 @@ body {
 
 button {
   width: 100%;
-  padding: 0.8rem;
+  height: 2.5rem;
+  padding: 0.5rem;
   font-size: 1rem;
   background-color: #0077b6;
   color: white;
