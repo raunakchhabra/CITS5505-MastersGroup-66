@@ -3,11 +3,11 @@ This is a project for language learning.
 LinguoProject(name) allows users to enroll in language courses, track progress, and share results.
 
 ## Team
-| 24114899 | Lulu Zhang     | GitHub Username |
+| 24114899 | Lulu Zhang     | Cynthia-zll |
 
-| 23914274 | Raunak Chhabra | GitHub Username |
+| 23914274 | Raunak Chhabra | raunakchhabra  |
 
-| 24172041 | Julie Lei | GitHub Username |
+| 24172041 | Julie Lei | Juliet-L |
 
 | 24144144 | Yao Qin | GitHub Username |
 
