@@ -1,3 +1,11 @@
-lgProject_env/
+!README.md
+!requirements.txt
+*.db
 *.pyc
+*.log
 __pycache__/
+.vscode/
+.idea/
+
+
+venv/

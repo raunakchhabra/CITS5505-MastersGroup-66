@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | PolyLingua</title>
-  <link rel="stylesheet" href="/users/raunakchhabra/Downloads/untitled folder 2/login.css" />
+  <link rel="stylesheet" href="/static/css/login.css" />
 </head>
 <body>
   <div class="login-wrapper">
@@ -22,9 +21,11 @@
           <label for="password">Password</label>
         </div>
         <button type="submit">Login</button>
-        <p class="register-link">Don't have an account? <a href="#">Register</a></p>
+        <button type="button" onclick="window.location.href='/forgot-password.html'">Forget Password</button>
+        <p class="register-link">Don't have an account? <a href="/register.html">Register</a></p>
       </form>
     </div>
   </div>
+  <script src="/static/js/auth.js"></script>
 </body>
 </html>
