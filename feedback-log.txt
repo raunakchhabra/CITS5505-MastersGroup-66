@@ -1,0 +1,5 @@
+Feedback Log
+
+- 2024-04-25: Initial peer review — layout appreciated, dashboard needs summary panel.
+- 2024-04-26: Instructor suggested adding progress visualizations.
+- 2024-04-28: Team call — discussed clearer About page structure.
