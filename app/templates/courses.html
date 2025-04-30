@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses – PolyLingua</title>
+  <link rel="stylesheet" href="courses.css" />
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo">PolyLingua</div>
+    <nav>
+      <button class="nav-btn" onclick="location.href='dashboard.html'">Dashboard</button>
+      <button class="nav-btn" onclick="location.href='upload_progress.html'">Upload Progress</button>
+      <button class="nav-btn" onclick="location.href='login.html'">Logout</button>
+      <button class="nav-btn profile-btn" onclick="toggleDarkMode()">🌙</button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="featured-course">
+      <h1>Available Language Courses</h1>
+      <p>Select a course to join and begin your language journey.</p>
+    </div>
+
+    <section class="course-list">
+      <div class="course-card">
+        <h2>Beginner French (A1)</h2>
+        <p>Master the foundations of French grammar and conversation.</p>
+        <button class="featured-btn">Join</button>
+      </div>
+      <div class="course-card">
+        <h2>Intermediate Japanese (B1)</h2>
+        <p>Enhance your vocabulary and fluency with daily practice.</p>
+        <button class="featured-btn">Join</button>
+      </div>
+      <div class="course-card">
+        <h2>Spanish for Travelers</h2>
+        <p>Learn essential Spanish phrases and cultural etiquette.</p>
+        <button class="featured-btn">Join</button>
+      </div>
+      <div class="course-card">
+        <h2>Business English</h2>
+        <p>Communicate effectively in professional English contexts.</p>
+        <button class="featured-btn">Join</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 PolyLingua</p>
+  </footer>
+</body>
+</html>

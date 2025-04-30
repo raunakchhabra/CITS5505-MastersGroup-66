@@ -9,7 +9,7 @@ LinguoProject(name) allows users to enroll in language courses, track progress, 
 
 | 24172041 | Julie Lei | Juliet-L |
 
-| 24144144 | Yao Qin | GitHub Username |
+| 24144144 | Yao Qin | 5km5km |
 
 
 
