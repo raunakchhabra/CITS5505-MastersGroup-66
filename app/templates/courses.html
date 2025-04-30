@@ -1,59 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Courses – PolyLingua</title>
-  <link rel="stylesheet" href="/static/css/courses.css" />
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-    }
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses – LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/courses.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">PolyLingua</div>
-    <nav>
-      <button class="nav-btn" onclick="location.href='dashboard.html'">Dashboard</button>
-      <button class="nav-btn" onclick="location.href='upload_progress.html'">Upload Progress</button>
-      <button class="nav-btn" onclick="location.href='login.html'">Logout</button>
-      <button class="nav-btn profile-btn" onclick="toggleDarkMode()">🌙</button>
-    </nav>
-  </header>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-left">
+                <div class="hamburger-menu">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <a href="/" class="logo">LinguaTrack</a>
+                <div class="dropdown-menu left-dropdown">
+                    <ul class="dropdown-list">
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/courses.html">Courses</a></li>
+                        <li><a href="/exercises.html">Exercises</a></li>
+                        <li><a href="/community.html">Community</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="data-menu">
+                    <span class="data-text">Data</span>
+                    <div class="dropdown-menu data-dropdown">
+                        <ul class="dropdown-list">
+                            <li><a href="/progress-report.html">Progress Track</a></li>
+                            <li><a href="/upload-data.html">Upload Data</a></li>
+                            <li><a href="/visualize-data.html">Visualize Data</a></li>
+                            <li><a href="/share-data.html">Share Data</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <span class="username">User</span>
+                    <div class="dropdown-menu right-dropdown">
+                        <ul class="dropdown-list">
+                            <li><a href="/profile.html">Profile</a></li>
+                            <li><a href="/dashboard.html">Dashboard</a></li>
+                            <li><a href="/settings.html">Settings</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <main>
-    <div class="featured-course">
-      <h1>Available Language Courses</h1>
-      <p>Select a course to join and begin your language journey.</p>
-    </div>
+    <main class="courses-main">
+        <section class="filter-section">
+            <h2>Choose Your Course</h2>
+            <div class="filter-options">
+                <div class="language-filter">
+                    <label for="language">Choose Language:</label>
+                    <div class="select-wrapper">
+                        <select id="language">
+                            <option value="">All Languages</option>
+                            <option value="english">English</option>
+                            <option value="french">French</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="japanese">Japanese</option>
+                            <option value="chinese">Chinese</option>
+                        </select>
+                        <button class="clear-filter" data-filter="language">Clear</button>
+                    </div>
+                </div>
 
-    <section class="course-list">
-      <div class="course-card">
-        <h2>Beginner French (A1)</h2>
-        <p>Master the foundations of French grammar and conversation.</p>
-        <button class="featured-btn">Join</button>
-      </div>
-      <div class="course-card">
-        <h2>Intermediate Japanese (B1)</h2>
-        <p>Enhance your vocabulary and fluency with daily practice.</p>
-        <button class="featured-btn">Join</button>
-      </div>
-      <div class="course-card">
-        <h2>Spanish for Travelers</h2>
-        <p>Learn essential Spanish phrases and cultural etiquette.</p>
-        <button class="featured-btn">Join</button>
-      </div>
-      <div class="course-card">
-        <h2>Business English</h2>
-        <p>Communicate effectively in professional English contexts.</p>
-        <button class="featured-btn">Join</button>
-      </div>
-    </section>
-  </main>
+                <div class="purpose-filter">
+                    <label for="purpose">Purpose:</label>
+                    <div class="select-wrapper">
+                        <select id="purpose">
+                            <option value="">All Purposes</option>
+                            <option value="travel">Travel</option>
+                            <option value="business">Business</option>
+                            <option value="academic">Academic</option>
+                        </select>
+                        <button class="clear-filter" data-filter="purpose">Clear</button>
+                    </div>
+                </div>
 
-  <footer>
-    <p>© 2025 PolyLingua</p>
-  </footer>
+                <div class="level-filter">
+                    <label for="level">Level:</label>
+                    <div class="select-wrapper">
+                        <select id="level">
+                            <option value="">All Levels</option>
+                            <option value="a1">A1</option>
+                            <option value="a2">A2</option>
+                            <option value="b1">B1</button>
+                            <option value="b2">B2</option>
+                            <option value="c1">C1</option>
+                            <option value="c2">C2</option>
+                        </select>
+                        <button class="clear-filter" data-filter="level">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="course-list">
+            </section>
+    </main>
+
+    <footer>
+        <p>© 2025 LinguaTrack</p>
+    </footer>
+    <script src="/static/js/courses.js"></script>
 </body>
 </html>

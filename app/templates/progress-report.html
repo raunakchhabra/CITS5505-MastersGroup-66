@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Report - LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/progress-report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .time-selector {
+            margin-bottom: 10px;
+        }
+        .time-selector button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+        .time-selector button.active {
+            background-color: #e0f2f7;
+            border-color: #b0e0e6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">LinguaTrack</div>
+        <nav>
+            <button class="nav-btn">Courses</button>
+            <button class="nav-btn">Dashboard</button>
+            <button class="nav-btn">Exercises</button>
+            <button class="nav-btn profile-btn">Profile</button>
+        </nav>
+    </header>
+    <main>
+        <h1>Your Progress Report</h1>
+        <section class="learning-trend">
+            <h2>Weekly Learning Trend</h2>
+            <div class="time-selector">
+                <button onclick="updateWeeklyChart('last7')" class="active">Last 7 Days</button>
+                <button onclick="updateWeeklyChart('last30')">Last 30 Days</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="weeklyLearningChart"></canvas>
+            </div>
+        </section>
+        <section class="skill-analysis">
+            <h2>Skill Analysis</h2>
+            <div class="time-selector">
+                <button onclick="updateSkillChart('last7')" class="active">Last 7 Days</button>
+                <button onclick="updateSkillChart('last30')">Last 30 Days</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="skillRadarChart"></canvas>
+            </div>
+            <div class="skill-details">
+                <p>Listening: <span id="listening-level"></span>%</p>
+                <p>Reading: <span id="reading-level"></span>%</p>
+                <p>Writing: <span id="writing-level"></span>%</p>
+                <p>Speaking: <span id="speaking-level"></span>%</p>
+            </div>
+        </section>
+        <section class="suggestions">
+            <h2>Suggestions for Improvement</h2>
+            <p>Your speaking skills need more practice. Try our new speaking exercises to improve!</p>
+            <button class="action-btn practice-btn">Start Speaking Practice</button>
+        </section>
+        <div class="report-actions">
+            <button class="action-btn download-btn">Download Report</button>
+            <button class="action-btn share-btn">Share Progress</button>
+        </div>
+    </main>
+    <footer>
+        <p>© 2025 LinguaTrack. All rights reserved.</p>
+        <div class="footer-links">
+            <button class="footer-btn">About Us</button>
+            <button class="footer-btn">Support</button>
+            <button class="footer-btn">Blog</button>
+        </div>
+    </footer>
+
+    <script>
+        const weeklyCtx = document.getElementById('weeklyLearningChart').getContext('2d');
+        let weeklyLearningChart;
+        const skillCtx = document.getElementById('skillRadarChart').getContext('2d');
+        let skillRadarChart;
+
+        function generateFakeWeeklyData(days) {
+            const labels = [];
+            const data = [];
+            const today = new Date();
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                labels.push(`${date.getMonth() + 1}/${date.getDate()}`);
+                data.push(Math.floor(Math.random() * 8)); // Fake study hours (0-7)
+            }
+            return {
+                labels: labels,
+                datasets: [{
+                    label: 'Hours Studied',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+        }
+
+        function updateWeeklyChart(timeRange) {
+            let days;
+            if (timeRange === 'last7') {
+                days = 7;
+            } else if (timeRange === 'last30') {
+                days = 30;
+            }
+
+            const newData = generateFakeWeeklyData(days);
+
+            if (weeklyLearningChart) {
+                weeklyLearningChart.data = newData;
+                weeklyLearningChart.update();
+            } else {
+                weeklyLearningChart = new Chart(weeklyCtx, {
+                    type: 'bar',
+                    data: newData,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Hours Studied'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Update button active state
+            document.querySelectorAll('.learning-trend .time-selector button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.learning-trend .time-selector button[onclick="updateWeeklyChart('${timeRange}')"]`).classList.add('active');
+        }
+
+        function generateFakeSkillData(days) {
+            const data = [
+                Math.floor(Math.random() * 40) + 60, // Listening (60-99)
+                Math.floor(Math.random() * 40) + 60, // Reading
+                Math.floor(Math.random() * 40) + 60, // Writing
+                Math.floor(Math.random() * 40) + 60  // Speaking
+            ];
+            return data;
+        }
+
+        function updateSkillChart(timeRange) {
+            let days;
+            if (timeRange === 'last7') {
+                days = 7;
+            } else if (timeRange === 'last30') {
+                days = 30;
+            }
+
+            const newData = generateFakeSkillData(days);
+
+            const skillData = {
+                labels: ['Listening', 'Reading', 'Writing', 'Speaking'],
+                datasets: [{
+                    label: 'Skill Level',
+                    data: newData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            };
+
+            if (skillRadarChart) {
+                skillRadarChart.data = skillData;
+                skillRadarChart.update();
+            } else {
+                skillRadarChart = new Chart(skillCtx, {
+                    type: 'radar',
+                    data: skillData,
+                    options: {
+                        scale: {
+                            ticks: {
+                                beginAtZero: true,
+                                max: 100,
+                                stepSize: 20
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Update displayed skill levels
+            document.getElementById('listening-level').textContent = newData[0];
+            document.getElementById('reading-level').textContent = newData[1];
+            document.getElementById('writing-level').textContent = newData[2];
+            document.getElementById('speaking-level').textContent = newData[3];
+
+            // Update button active state for skill chart
+            document.querySelectorAll('.skill-analysis .time-selector button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.skill-analysis .time-selector button[onclick="updateSkillChart('${timeRange}')"]`).classList.add('active');
+        }
+
+        // Initial chart load for the last 7 days (both charts)
+        updateWeeklyChart('last7');
+        updateSkillChart('last7');
+    </script>
+</body>
+</html>

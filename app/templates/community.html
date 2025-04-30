@@ -42,8 +42,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - LinguaTrack</title>
-    <link rel="stylesheet" href="settings.css">
+    <title>Community - LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/community.css">
 </head>
 <body>
     <header>
@@ -56,40 +56,34 @@
         </nav>
     </header>
     <main>
-        <h1>Settings</h1>
-        <section class="settings-section">
-            <h2>Language Preferences</h2>
-            <div class="setting-item">
-                <label>App Language: </label>
-                <select>
-                    <option>English</option>
-                    <option>Spanish</option>
-                    <option>French</option>
-                </select>
+        <h1>Join the Community</h1>
+        <section class="leaderboard">
+            <h2>Global Leaderboard</h2>
+            <div class="leaderboard-list">
+                <div class="leaderboard-item">🥇 1. Alex - 1500 XP</div>
+                <div class="leaderboard-item">🥈 2. Maria - 1200 XP</div>
+                <div class="leaderboard-item">🥉 3. You - 320 XP</div>
             </div>
+            <button class="action-btn view-btn">View Full Leaderboard</button>
         </section>
-        <section class="settings-section">
-            <h2>Notifications</h2>
-            <div class="setting-item">
-                <label>Daily Reminders: </label>
-                <input type="checkbox" checked>
+        <section class="friend-activities">
+            <h2>Friend Activities</h2>
+            <div class="activity-list">
+                <div class="activity-item">Maria completed French Lesson 5! 🎉</div>
+                <div class="activity-item">Alex earned 100 XP in German! 💪</div>
+                <div class="activity-item">Sarah started learning Japanese! 🌸</div>
             </div>
-            <div class="setting-item">
-                <label>Email Updates: </label>
-                <input type="checkbox">
-            </div>
+            <button class="action-btn add-friend-btn">Add Friend</button>
         </section>
-        <section class="settings-section">
-            <h2>Learning Goals</h2>
-            <div class="setting-item">
-                <label>Daily Goal: </label>
-                <input type="number" value="10" min="1"> minutes
+        <section class="discussion">
+            <h2>Discussion Forum</h2>
+            <div class="discussion-post">
+                <h3>Best Tips for Learning Spanish?</h3>
+                <p>Posted by Anna | 2 hours ago</p>
+                <p>What are your favorite resources for Spanish? I’m struggling with verbs!</p>
             </div>
+            <button class="action-btn discuss-btn">Join Discussion</button>
         </section>
-        <div class="settings-actions">
-            <button class="action-btn save-btn">Save Changes</button>
-            <button class="action-btn reset-btn">Reset to Default</button>
-        </div>
     </main>
     <footer>
         <p>© 2025 LinguaTrack. All rights reserved.</p>

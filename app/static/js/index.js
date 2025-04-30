@@ -30,7 +30,7 @@ $(document).ready(function() {
             this.classList.add('selected');
 
             // comment out the following line to prevent page reload
-            // window.location.href = this.querySelector('a').getAttribute('href');
+            //window.location.href = this.querySelector('a').getAttribute('href');
         });
     });
 

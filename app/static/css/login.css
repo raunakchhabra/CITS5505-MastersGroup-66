@@ -128,3 +128,62 @@ button:hover {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+button[onclick*='/forgot-password.html'] { /* Select the Forget Password button */
+  margin-top: 1rem; /* Add space above the Forget Password button */
+  width: 100%; /* Ensure it takes full width */
+  height: 2.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: transparent; /* Make it look like a link/button */
+  color: #0077b6;
+  border: 1px solid #0077b6; /* Add a border if you want it to look more like a button */
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button[onclick*='/forgot-password.html']:hover {
+  background-color: rgba(0, 119, 182, 0.1); /* Add a light background on hover */
+}
+.register-link {
+  margin-top: 1.5rem; /* Add space above the register link */
+  font-size: 0.9rem;
+  color: #444;
+  text-align: center; /* Center the text if you prefer */
+}
+.social-login p {
+  margin-top: 1.5rem; /* Add space above the "Or create..." text */
+  text-align: center; /* Center the text if you prefer */
+}
+.social-login {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #444;
+  display: flex;
+  flex-direction: column; /* Stack them vertically */
+  gap: 0.5rem; /* Add space between the buttons */
+  align-items: center; /* Center the buttons horizontally if they don't take full width */
+}
+
+.social-login button {
+  width: 100%; /* Ensure they take full width */
+  height: 2.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.social-login .google-btn {
+  background-color: #db4437;
+  color: white;
+}
+
+.social-login .facebook-btn {
+  background-color: #4267B2;
+  color: white;
+}

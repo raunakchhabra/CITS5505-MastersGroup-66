@@ -6,6 +6,7 @@
     <title>Dashboard - LinguaTrack</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* 你的现有 CSS 样式 */
         .sidebar {
             min-height: calc(100vh - 56px);
             background-color: #f8f9fa;
@@ -27,20 +28,41 @@
             border-radius: 0.5rem;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
         }
-        .chart-placeholder {
-            background-color: #f8f9fa;
-            height: 300px;
-            border-radius: 0.5rem;
+        #weeklyActivitiesList {
+            list-style: none;
+            padding-left: 0;
+        }
+        #weeklyActivitiesList li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        #weeklyActivitiesList li:last-child {
+            border-bottom: none;
+        }
+        .activity-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+        }
+        .activity-details {
+            flex-grow: 1;
+        }
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .activity-meta {
             color: #6c757d;
-            border: 1px dashed #dee2e6;
+            font-size: 0.9rem;
+        }
+        .activity-progress {
+            font-weight: bold;
+            color: #28a745;
+            margin-left: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold text-primary" href="#">LinguaTrack</a>
@@ -79,7 +101,6 @@
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar p-3">
                 <h5 class="mb-3">Quick Links</h5>
                 <ul class="nav flex-column">
@@ -119,7 +140,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <h5 class="mt-4 mb-3">Language Focus</h5>
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">Spanish</a>
@@ -128,7 +149,6 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="mb-0">Dashboard</h2>
@@ -138,7 +158,6 @@
                     </div>
                 </div>
 
-                <!-- Statistics Row -->
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <div class="card stat-card">
@@ -174,27 +193,16 @@
                     </div>
                 </div>
 
-                <!-- Progress Chart -->
                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-header">
                         <h5 class="mb-0">Weekly Progress</h5>
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-outline-secondary">Time</button>
-                            <button class="btn btn-sm btn-outline-secondary">Activities</button>
-                            <button class="btn btn-sm btn-outline-secondary">Skills</button>
-                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="chart-placeholder">
-                            <div class="text-center">
-                                <h6>Weekly Progress Chart</h6>
-                                <p class="mb-0">Interactive chart showing your study time and progress</p>
-                            </div>
-                        </div>
+                        <ul id="weeklyActivitiesList">
+                            </ul>
                     </div>
                 </div>
 
-                <!-- Skill Breakdown -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card mb-4">
@@ -203,10 +211,15 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-placeholder">
-                                    <div class="text-center">
+                                    <canvas id="skillBreakdownChart"></canvas>
+                                    <div class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                                         <h6>Skill Distribution Chart</h6>
                                         <p class="mb-0">Radar chart showing your skill levels</p>
                                     </div>
+                                </div>
+                                <div class="time-selector">
+                                    <button onclick="updateSkillBreakdownChart('last7')" class="active">Last 7 Days</button>
+                                    <button onclick="updateSkillBreakdownChart('last30')">Last 30 Days</button>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +265,6 @@
                     </div>
                 </div>
 
-                <!-- Recommendations -->
                 <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="mb-0">Personalized Recommendations</h5>
@@ -276,6 +288,104 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const weeklyActivitiesList = document.getElementById('weeklyActivitiesList');
+        const skillBreakdownCtx = document.getElementById('skillBreakdownChart').getContext('2d');
+        let skillBreakdownChart;
+
+        function generateFakeWeeklyActivities() {
+            const activities = [
+                { date: 'Yesterday', course: 'Spanish Basics', activity: 'Lesson 3: Greetings', progress: 'Completed' },
+                { date: '2 days ago', course: 'Spanish Vocabulary', activity: 'Food & Drinks Practice', progress: '80%' },
+                { date: '3 days ago', course: 'Spanish Grammar', activity: 'Verb Conjugation Quiz', progress: '75%' },
+                { date: '4 days ago', course: 'Spanish Reading', activity: 'Short Story: The Park', progress: 'Completed' },
+                { date: '5 days ago', course: 'Spanish Listening', activity: 'Podcast: Daily Routine', progress: '60%' },
+                { date: '6 days ago', course: 'Spanish Speaking', activity: 'Introduction Practice', progress: 'Completed' },
+                { date: '7 days ago', course: 'Spanish Basics', activity: 'Lesson 2: Numbers', progress: 'Completed' }
+            ];
+            return activities;
+        }
+
+        function displayWeeklyActivities() {
+            weeklyActivitiesList.innerHTML = ''; // Clear previous list
+
+            const activities = generateFakeWeeklyActivities();
+            activities.forEach(activity => {
+                const listItem = document.createElement('li');
+                listItem.className = 'activity-item';
+                listItem.innerHTML = `
+                    <div class="activity-details">
+                        <div class="activity-title">${activity.course}</div>
+                        <div class="activity-meta">${activity.activity} - ${activity.date}</div>
+                    </div>
+                    <span class="activity-progress">${activity.progress}</span>
+                `;
+                weeklyActivitiesList.appendChild(listItem);
+            });
+        }
+
+        function generateFakeSkillBreakdownData(days) {
+            const data = [
+                Math.floor(Math.random() * 30) + 70, // Listening
+                Math.floor(Math.random() * 30) + 60, // Reading
+                Math.floor(Math.random() * 30) + 50, // Writing
+                Math.floor(Math.random() * 30) + 80, // Speaking
+                Math.floor(Math.random() * 30) + 75  // Vocabulary
+            ];
+            return data;
+        }
+
+        function updateSkillBreakdownChart(timeRange) {
+            const newData = generateFakeSkillBreakdownData();
+            const labels = ['Listening', 'Reading', 'Writing', 'Speaking', 'Vocabulary'];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Skill Level',
+                    data: newData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            if (skillBreakdownChart) {
+                skillBreakdownChart.data = data;
+                skillBreakdownChart.update();
+            } else {
+                skillBreakdownChart = new Chart(skillBreakdownCtx, {
+                    type: 'radar',
+                    data: data,
+                    options: {
+                        scale: {
+                            ticks: {
+                                beginAtZero: true,
+                                max: 100,
+                                stepSize: 20
+                            }
+                        }
+                    }
+                });
+            }
+            document.querySelectorAll('.card:nth-child(5) .time-selector button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.card:nth-child(5) .time-selector button[onclick="updateSkillBreakdownChart('${timeRange}')"]`).classList.add('active');
+        }
+
+        // Initial display of weekly activities and skill breakdown chart
+        displayWeeklyActivities();
+        updateSkillBreakdownChart('last7');
+    </script>
 </body>
 </html>

@@ -42,8 +42,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercises - LinguaTrack</title>
-    <link rel="stylesheet" href="exercises.css">
+    <title>Dashboard - LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
 </head>
 <body>
     <header>
@@ -56,30 +56,38 @@
         </nav>
     </header>
     <main>
-        <h1>Spanish Exercise - Lesson 3</h1>
-        <div class="progress-tracker">
-            <span>Question 2 of 10</span>
-            <div class="progress-bar"><div class="progress" style="width: 20%;"></div></div>
+        <h1>Your Learning Dashboard</h1>
+        <section class="motivation-banner">
+            <h2>You're on Fire! 🔥</h2>
+            <p>Keep up your 5-day streak and earn bonus XP!</p>
+            <button class="action-btn streak-btn">Claim Bonus</button>
+        </section>
+        <div class="dashboard-content">
+            <div class="stat-card">
+                <h2>Streak</h2>
+                <p>5 Days</p>
+                <button class="action-btn practice-btn">Practice Now</button>
+            </div>
+            <div class="stat-card">
+                <h2>Progress</h2>
+                <p>75% Spanish</p>
+                <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
+                <button class="action-btn lesson-btn">Next Lesson</button>
+            </div>
+            <div class="stat-card">
+                <h2>Points</h2>
+                <p>320 XP</p>
+                <button class="action-btn challenge-btn">Daily Challenge</button>
+            </div>
         </div>
-        <div class="exercise-content">
-            <h2>Translate: "Hola, ¿cómo estás?"</h2>
-            <div class="options">
-                <button class="option-btn">Hello, how are you?</button>
-                <button class="option-btn">Goodbye, see you!</button>
-                <button class="option-btn">I am fine, thanks!</button>
+        <section class="leaderboard">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-list">
+                <div class="leaderboard-item">1. Alex - 1500 XP</div>
+                <div class="leaderboard-item">2. Maria - 1200 XP</div>
+                <div class="leaderboard-item">3. You - 320 XP</div>
             </div>
-            <div class="exercise-tools">
-                <button class="tool-btn hint-btn">Hint</button>
-                <button class="tool-btn speak-btn">Listen</button>
-            </div>
-            <div class="navigation">
-                <button class="action-btn skip-btn">Skip</button>
-                <button class="action-btn submit-btn">Submit</button>
-            </div>
-        </div>
-        <section class="quick-tips">
-            <h2>Quick Tips</h2>
-            <p>"Hola" means "Hello" in Spanish. Try to break down the sentence!</p>
+            <button class="action-btn view-btn">View Full Leaderboard</button>
         </section>
     </main>
     <footer>

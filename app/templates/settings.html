@@ -42,8 +42,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Report - LinguaTrack</title>
-    <link rel="stylesheet" href="/static/css/progress-report.css">
+    <title>Settings - LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/settings.css">
 </head>
 <body>
     <header>
@@ -56,29 +56,39 @@
         </nav>
     </header>
     <main>
-        <h1>Your Progress Report</h1>
-        <section class="learning-trend">
-            <h2>Weekly Learning Trend</h2>
-            <div class="chart-placeholder">[Weekly Learning Chart Placeholder]</div>
-        </section>
-        <section class="skill-analysis">
-            <h2>Skill Analysis</h2>
-            <div class="chart-placeholder">[Skill Radar Chart Placeholder]</div>
-            <div class="skill-details">
-                <p>Listening: 80%</p>
-                <p>Reading: 70%</p>
-                <p>Writing: 60%</p>
-                <p>Speaking: 50%</p>
+        <h1>Settings</h1>
+        <section class="settings-section">
+            <h2>Language Preferences</h2>
+            <div class="setting-item">
+                <label>App Language: </label>
+                <select>
+                    <option>English</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                </select>
             </div>
         </section>
-        <section class="suggestions">
-            <h2>Suggestions for Improvement</h2>
-            <p>Your speaking skills need more practice. Try our new speaking exercises to improve!</p>
-            <button class="action-btn practice-btn">Start Speaking Practice</button>
+        <section class="settings-section">
+            <h2>Notifications</h2>
+            <div class="setting-item">
+                <label>Daily Reminders: </label>
+                <input type="checkbox" checked>
+            </div>
+            <div class="setting-item">
+                <label>Email Updates: </label>
+                <input type="checkbox">
+            </div>
         </section>
-        <div class="report-actions">
-            <button class="action-btn download-btn">Download Report</button>
-            <button class="action-btn share-btn">Share Progress</button>
+        <section class="settings-section">
+            <h2>Learning Goals</h2>
+            <div class="setting-item">
+                <label>Daily Goal: </label>
+                <input type="number" value="10" min="1"> minutes
+            </div>
+        </section>
+        <div class="settings-actions">
+            <button class="action-btn save-btn">Save Changes</button>
+            <button class="action-btn reset-btn">Reset to Default</button>
         </div>
     </main>
     <footer>

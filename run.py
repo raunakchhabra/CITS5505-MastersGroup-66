@@ -252,10 +252,74 @@ def reset_password_page():
 
 @app.route('/dashboard.html')
 def dashboard_page():
-    if not is_logged_in():
-        return redirect('/login.html')
+    #if not is_logged_in():   // comment out just for testing
+        #return redirect('/login.html') // comment out just for testing
     return render_template('dashboard.html')
 
+@app.route('/profile.html')
+def profile_page(): #comment out just for testing below
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    #with get_db() as conn:
+        #cursor = conn.cursor()
+        #cursor.execute('SELECT * FROM users WHERE email = ?', (session['user_email'],))
+        #user = cursor.fetchone()
+    #return render_template('profile.html', user=user)
+    return render_template('profile.html') 
+@app.route('/settings.html')
+def settings_page(): 
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    return render_template('settings.html')
+
+@app.route('/exercises.html')
+def exercises():
+    return render_template('exercises.html')
+
+@app.route('/community.html')
+def community():
+    return render_template('community.html')
+
+@app.route('/about.html')
+def about():
+    return render_template('about.html')
+@app.route('/progress-report.html')
+def progress_report_page(): #comment out just for testing below
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    return render_template('progress-report.html')
+
+@app.route('/upload-data.html')
+def upload_data_page(): #comment out just for testing below
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    return render_template('upload-data.html')
+
+@app.route('/visualize-data.html')
+def visualize_data_page(): #comment out just for testing below
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    return render_template('visualize-data.html')
+
+@app.route('/share-data.html')
+def share_data_page(): #comment out just for testing below
+    #if not is_logged_in():
+        #return redirect('/login.html')
+    return render_template('share-data.html')
+@app.route('/courses.html')
+def courses_page():
+    if 'user_email' in session:
+        # Fetch user data from database based on session['user_email']
+        # For example:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT name FROM users WHERE email = ?', (session['user_email'],))
+            user = cursor.fetchone()
+            username = user['name'] if user else 'User'
+        return render_template('courses.html', username=username)
+    else:
+        return render_template('courses.html', username='User') # Default if not logged in
+    
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
