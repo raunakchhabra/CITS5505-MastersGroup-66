@@ -1,0 +1,6 @@
+Dashboard Page Notes
+
+- Display key course statistics for the user
+- Add daily/weekly progress tracking boxes
+- Include a summary card for most active course
+- Plan to integrate charts for skills breakdown
