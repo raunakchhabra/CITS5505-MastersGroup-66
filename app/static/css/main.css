@@ -1,0 +1,66 @@
+/* Main Styles */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+/* Card customizations */
+.card {
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Button customizations */
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+.btn-primary:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+}
+
+.btn-success {
+    background-color: #34c759;
+    border-color: #34c759;
+}
+
+.btn-success:hover {
+    background-color: #2eb34f;
+    border-color: #2eb34f;
+}
+
+/* Navigation styles */
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #1a73e8 !important;
+}
+
+.nav-link {
+    color: #212529;
+    border-radius: 0.25rem;
+    margin-right: 0.5rem;
+}
+
+.nav-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Footer styles */
+.footer {
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}

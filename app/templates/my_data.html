@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">My Data</h1>
+
+    {% if data %}
+        <div class="row">
+            {% for item in data %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ item.title }}</h5>
+                            <span class="badge {% if item.data_type.value == 'vocabulary' %}bg-success
+                                   {% elif item.data_type.value == 'study_time' %}bg-primary
+                                   {% elif item.data_type.value == 'assessment' %}bg-warning
+                                   {% else %}bg-secondary{% endif %}">
+                                {{ item.data_type.name }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            {% if item.description %}
+                                <p>{{ item.description }}</p>
+                            {% endif %}
+                            
+                            {% if item.file_path %}
+                                <p><strong>File:</strong> {{ item.file_path.split('/')[-1] }}</p>
+                            {% endif %}
+                            
+                            {% if item.content %}
+                                <p><strong>Content:</strong><br>{{ item.content }}</p>
+                            {% endif %}
+                            
+                            {% if item.metadata %}
+                                <div class="mt-3">
+                                    <strong>Details:</strong>
+                                    <ul class="list-unstyled">
+                                        {% for key, value in item.metadata.items() %}
+                                            <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="text-muted small mt-3">
+                                Uploaded: {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% if item.created_at != item.updated_at %}
+                                    <br>Updated: {{ item.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary">View Details</button>
+                                <button class="btn btn-sm btn-outline-success">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p class="mb-0">You don't have any data yet. <a href="{{ url_for('data.upload') }}">Upload some data</a> to get started!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
