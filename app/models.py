@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     receive_reminder: Mapped = mapped_column(Boolean)
     receive_email: Mapped = mapped_column(Boolean)
 
+    # Relationship
     courses = relationship("Course", back_populates="teacher")
     user_languages = relationship("Userlanguage", back_populates="user")
     progress = relationship("Progress", back_populates="user")
