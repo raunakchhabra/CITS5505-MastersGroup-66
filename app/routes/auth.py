@@ -3,7 +3,8 @@ from flask_login import login_user, logout_user, current_user
 from app import db
 from app.models import User
 from app.forms import RegistrationForm, LoginForm
-from werkzeug.urls import url_parse
+from urllib.parse import urlparse
+
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -37,7 +38,7 @@ def login():
         
         login_user(user, remember=form.remember.data)
         next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
+        if not next_page or urlparse(next_page).netloc != '':
             next_page = url_for('main.dashboard')
         return redirect(next_page)
     
