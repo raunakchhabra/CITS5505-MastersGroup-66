@@ -3,9 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
 from flask_migrate import Migrate
+from app.models import User 
 
 # Extensions are now managed in a separate module
-from app.extensions import db, migrate
+from app.extensions import db, migrate, login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -20,6 +27,12 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     with app.app_context():
+        from app.models import User
+
+        @login_manager.user_loader
+        def load_user(user_id):
+            return User.query.get(int(user_id))
+
         # Register blueprints
         from app.routes.main import main_bp
         from app.routes.auth import auth_bp
