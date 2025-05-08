@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 import os
 from werkzeug.utils import secure_filename
 import uuid
-from app import db
+from app.extensions import db
 from app.models import Data, DataType
 from app.forms import DataUploadForm, StudySessionForm
 from datetime import datetime
