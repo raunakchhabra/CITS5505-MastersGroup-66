@@ -38,24 +38,23 @@
       <p class="subtitle">Join LinguaTrack and start your language journey today</p>
       <form>
         <div class="input-group">
-          <input type="text" name="name" id="name" data-label="name-label" required />
-          <label for="name" class="name-label">Full Name</label>
+          <input type="text" name="name" id="name" placeholder=" " required />
+          <label for="name">Full Name</label>
         </div>
         <div class="input-group">
-          <input type="email" name="email" id="email" data-label="email-label" required />
-          <label for="email" class="email-label">Email</label>
+          <input type="email" name="email" id="email" placeholder=" " required />
+          <label for="email">Email</label>
         </div>
         <div class="input-group">
           <div class="password-wrapper">
-            <input type="password" name="password" id="password" data-label="password-label" required />
+            <input type="password" name="password" id="password" placeholder=" " required />
             <i class="fas fa-eye toggle-password" id="toggle-password"></i>
           </div>
-          <label for="password" class="password-label">Password</label>
+          <label for="password">Password</label>
           <div id="password-strength" style="margin-top: 5px;"></div>
           <button type="button" id="generate-password" style="margin-top: 10px; display: none;">Generate Strong Password</button>
         </div>
 
-        <!-- Success message placeholder -->
         <p id="success-message">✅ User created successfully! Thank you for joining LinguaTrack.</p>
 
         <button type="submit">Register</button>
@@ -63,16 +62,14 @@
       </form>
     </div>
   </div>
+  
   <script src="/static/js/auth.js"></script>
   <script>
     const form = document.querySelector('form');
     const successMessage = document.getElementById('success-message');
 
     form.addEventListener('submit', function(event) {
-      event.preventDefault(); // prevent page reload
-
-      // Here you would normally send the data to the server.
-      // For now, we just show the success message.
+      event.preventDefault();
       successMessage.style.display = 'block';
     });
   </script>
