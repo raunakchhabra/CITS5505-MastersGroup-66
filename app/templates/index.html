@@ -14,8 +14,8 @@
     <div class="navbar-container">
         <a href="/" class="logo">LinguaTrack</a>
         <div class="nav-links">
-            <a href="/login.html" class="btn-outline">Log in</a>
-            <a href="/register.html" class="btn-primary">Sign up</a>
+            <a href="{{ url_for('auth.login') }}" class="btn-outline">Log in</a>
+            <a href="{{ url_for('auth.register') }}" class="btn-primary">Sign up</a>
         </div>
     </div>
 </nav>
@@ -25,12 +25,12 @@
     <div class="hero-left">
       <h1>Learn Language online for free</h1>
       <p>Grow your confidence and speak language with free courses in the LinguaTrack Community.</p>
-      <a href="/register.html" class="btn-green">Get started for free</a>
+      <a href="{{ url_for('auth.register') }}" class="btn-green">Get started for free</a>
     </div>
     <div class="hero-right">
       <img src="/static/images/landing-image.png" alt="Language Learning" />
     </div>
-  </section>
+</section>
 
 <!-- Language Options -->
 <section class="language-options">
@@ -127,7 +127,7 @@
                 <img src="/static/images/confidence.jpg" alt="Confidence" class="why-image" id="confidence-img"/>
             </div>
         </div>
-        <a href="/register.html" class="btn-primary big">Get started for free</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-primary big">Get started for free</a>
     </div>
 </section>
 

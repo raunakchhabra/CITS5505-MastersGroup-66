@@ -7,20 +7,20 @@ from app.extensions import db
 from enum import Enum
 from sqlalchemy import Enum as SAEnum, JSON, String
 
-class User(db.Model, UserMixin):
-    __tablename__ = 'user'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
-    name: Mapped[str] = mapped_column(Text)
-    email: Mapped[str] = mapped_column(Text, unique=True)
-    password_hash: Mapped[str] = mapped_column(Text)
-    role: Mapped[str] = mapped_column(Text, default="student")
-    xp: Mapped[int] = mapped_column(Integer)
-    streak_days: Mapped[int] = mapped_column(Integer)
-    app_language: Mapped[str] = mapped_column(Text)
-    daily_goal_minutes: Mapped[int] = mapped_column(Integer)
-    receive_reminder: Mapped[bool] = mapped_column(Boolean)
-    receive_email: Mapped[bool] = mapped_column(Boolean)
+class User(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    email: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    password_hash: Mapped[str] = mapped_column(Text, nullable=False)
+    
+    role: Mapped[str] = mapped_column(Text, default="student", nullable=False)
+    xp: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    streak_days: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    app_language: Mapped[str] = mapped_column(Text, default="en", nullable=False)
+    daily_goal_minutes: Mapped[int] = mapped_column(Integer, default=30, nullable=False)
+    receive_reminder: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    receive_email: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Relationship
     courses: Mapped[list["Course"]] = relationship("Course", back_populates="teacher")
