@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register | LinguaTrack
-    
-  </title>
+  <title>Register | LinguaTrack</title>
   <link rel="stylesheet" href="/static/css/register.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
@@ -24,6 +22,12 @@
       transform: translateY(-50%);
       cursor: pointer;
       color: #666;
+    }
+    #success-message {
+      color: green;
+      display: none;
+      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -50,11 +54,27 @@
           <div id="password-strength" style="margin-top: 5px;"></div>
           <button type="button" id="generate-password" style="margin-top: 10px; display: none;">Generate Strong Password</button>
         </div>
+
+        <!-- Success message placeholder -->
+        <p id="success-message">✅ User created successfully! Thank you for joining LinguaTrack.</p>
+
         <button type="submit">Register</button>
         <p class="login-link">Already have an account? <a href="/login.html">Login</a></p>
       </form>
     </div>
   </div>
   <script src="/static/js/auth.js"></script>
+  <script>
+    const form = document.querySelector('form');
+    const successMessage = document.getElementById('success-message');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // prevent page reload
+
+      // Here you would normally send the data to the server.
+      // For now, we just show the success message.
+      successMessage.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
