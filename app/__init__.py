@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from config import Config
 from app.extensions import db, migrate, login_manager
+from app.models import Data, SharedData, DataType, SharedPermission
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -29,5 +30,16 @@ def create_app(config_class=Config):
         app.register_blueprint(data_bp)
 
         # db.create_all()
+
+        @app.shell_context_processor
+        def make_shell_context():
+            return {
+                'db': db,
+                'User': User,
+                'Data': Data,
+                'SharedData': SharedData,
+                'DataType': DataType,
+                'SharedPermission': SharedPermission
+            }
 
     return app

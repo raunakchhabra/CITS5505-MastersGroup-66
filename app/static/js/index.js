@@ -14,7 +14,13 @@ $(document).ready(function() {
 
     languageOptions.forEach(option => {
         option.addEventListener('click', function(e) {
-            // to prevent the default action of the link
+            const target = e.target.closest('a');
+            // if the clicked element is a link with class 'btn-primary', allow default behavior
+            if (target && target.classList.contains('btn-primary')) {
+                return; // allow default behavior
+            }
+
+            // prevent default behavior for other clicks
             e.preventDefault();
 
             const languageButton = this.querySelector('.language-btn');
@@ -26,16 +32,15 @@ $(document).ready(function() {
                 learningGoalsTitle.textContent = defaultTitle;
             }
 
+            // select the clicked language option
             languageOptions.forEach(lang => lang.classList.remove('selected'));
             this.classList.add('selected');
-
-            // comment out the following line to prevent page reload
-            //window.location.href = this.querySelector('a').getAttribute('href');
         });
     });
 
-    // if the user clicks on the language button, it will change the title
-    const defaultLanguageOption = document.querySelector('.language:first-child'); // assume the first language option is the default one
+    // if no language is selected, set the default language
+    const defaultLanguageOption = document.querySelector('.language:first-child'); // 
+    // Select the first language option
     if (defaultLanguageOption) {
         const englishButton = defaultLanguageOption.querySelector('.language-btn');
         if (englishButton && englishButton.textContent === 'English') {
@@ -45,13 +50,11 @@ $(document).ready(function() {
 
     $('.goal-link').hover(
         function() {
-            // mouse hover effect
             $(this).find('h3').css('color', '#0040ff');
             $(this).find('p').css('color', '#333');
         },
         function() {
-            // mouse leave effect
-            $(this).find('h3').css('color', ''); // reset to default
+            $(this).find('h3').css('color', ''); 
             $(this).find('p').css('color', '#666');
         }
     );
