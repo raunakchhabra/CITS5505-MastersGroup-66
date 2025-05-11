@@ -49,10 +49,10 @@
     <header>
         <div class="logo">LinguaTrack</div>
         <nav>
-            <button class="nav-btn">Courses</button>
-            <button class="nav-btn">Dashboard</button>
-            <button class="nav-btn">Exercises</button>
-            <button class="nav-btn profile-btn">Profile</button>
+            <a class="nav-btn" href="{{ url_for('main.courses') }}">Courses</a>
+            <!-- <a class="nav-btn" href="{{ url_for('main.dashboard') }}">Dashboard</a> -->
+            <a class="nav-btn" href="{{ url_for('main.exercises') }}">Exercises</a>
+            <a class="nav-btn profile-btn" href="{{ url_for('main.profile') }}">Profile</a>
         </nav>
     </header>
     <main>

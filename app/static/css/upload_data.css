@@ -1,0 +1,176 @@
+/* Import base styles from share_data.css to maintain overall consistency */
+@import url('share_data.css');
+
+/* Styles specific to the Upload Data page */
+.upload-data-main {
+    padding: 2rem 3rem;
+    margin-top: 56px; /* Adjust for fixed navbar height */
+}
+
+.upload-data-main h1 {
+    color: #0040ff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0f2f7;
+    padding: 1rem 1.5rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-title {
+    color: #333;
+    margin-bottom: 0;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #0040ff;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #555;
+    margin-right: 1.5rem;
+    padding: 0.75rem 0;
+}
+
+.nav-tabs .nav-link:hover {
+    border-bottom-color: #b0e0e6;
+}
+
+.nav-tabs .nav-link.active {
+    color: #0040ff;
+    border-bottom-color: #0040ff;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-label {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border: 1px solid #b0e0e6;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #0040ff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 64, 255, 0.25);
+}
+
+.form-select {
+    border: 1px solid #b0e0e6;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+.form-select:focus {
+    border-color: #0040ff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 64, 255, 0.25);
+}
+
+.form-text {
+    color: #777;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.btn-primary, .btn-success {
+    color: white;
+    background-color: #0040ff;
+    border-color: #0040ff;
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: #0033cc;
+    border-color: #0033cc;
+}
+
+.btn-outline-secondary {
+    color: #555;
+    border-color: #b0e0e6;
+    border-radius: 6px;
+    padding: 0.7rem 1.1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #e0f2f7;
+    border-color: #0040ff;
+    color: #0040ff;
+}
+
+.list-group {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #e0f2f7;
+    padding: 1rem 1.5rem;
+    background-color: white;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.list-group-item-action:hover {
+    background-color: #f9f9f9;
+}
+
+.list-group-item h5 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.list-group-item small {
+    color: #777;
+}
+
+.list-group-item p {
+    color: #555;
+    margin-bottom: 0.25rem;
+}
+
+.text-muted {
+    color: #777 !important;
+}
+
+.d-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.nav-tabs .nav-link:focus,
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 64, 255, 0.25);
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share with Friends - LinguaTrack</title>
+    <link rel="stylesheet" href="/static/css/share_data.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-left">
+                <div class="hamburger-menu">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <a href="{{ url_for('main.index') }}" class="logo">LinguaTrack</a>
+                <div class="dropdown-menu left-dropdown">
+                    <ul class="dropdown-list">
+                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
+                        <li><a href="{{ url_for('main.exercises') }}">Exercises</a></li>
+                        <li><a href="{{ url_for('main.community') }}">Community</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="data-menu">
+                    <span class="data-text">Data</span>
+                    <div class="dropdown-menu data-dropdown">
+                        <ul class="dropdown-list">
+                            <li><a href="{{ url_for('main.upload_data') }}">Upload Data</a></li>
+                            <li><a href="{{ url_for('main.visualize_data') }}">Visualize Data</a></li>
+                            <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <span class="username">User</span>
+                    <div class="dropdown-menu right-dropdown">
+                        <ul class="dropdown-list">
+                            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                            <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="share-data-main">
+        <section class="share-friends-section">
+            <h2>Share with Friends</h2>
+            <p class="instruction">Enter your friend's username or email to share your learning progress.</p>
+            <div class="share-input-group">
+                <input type="text" id="friend-identifier" placeholder="Username or Email">
+                <button class="share-button">Share</button>
+            </div>
+
+            <div class="shared-list-container">
+                <h3>Currently Sharing With</h3>
+                <ul id="shared-friends-list">
+                    <li class="shared-friend-item">
+                        <span class="friend-name">Friend 1</span>
+                        <button class="revoke-share-button">Revoke</button>
+                    </li>
+                    <li class="shared-friend-item">
+                        <span class="friend-name">Another Friend</span>
+                        <button class="revoke-share-button">Revoke</button>
+                    </li>
+                    </ul>
+                <p id="no-shared-friends" class="empty-message">You are not currently sharing with anyone.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 LinguaTrack</p>
+    </footer>
+    <script src="/static/js/share.js"></script>
+</body>
+</html>

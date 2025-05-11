@@ -22,9 +22,9 @@ header {
     letter-spacing: 1px;
 }
 
-nav .nav-btn {
+nav a.nav-btn {
     background: #ffffff;
-    border: none;
+    border: none; /* Remove default button border */
     padding: 10px 20px;
     margin: 0 10px;
     border-radius: 25px;
@@ -32,22 +32,27 @@ nav .nav-btn {
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove default link underline */
+    color: inherit; /* Inherit text color from parent */
+    display: inline-block; /* Allows padding and margin to work correctly */
 }
 
-nav .nav-btn:hover {
+nav a.nav-btn:hover {
     background: #e8f0fe;
     transform: translateY(-2px);
+    text-decoration: none; /* Ensure no underline on hover */
 }
 
-nav .profile-btn {
+nav a.profile-btn {
     background: #ffd700;
     color: #333;
+    text-decoration: none; /* Remove default link underline */
 }
 
-nav .profile-btn:hover {
+nav a.profile-btn:hover {
     background: #ffca28;
+    text-decoration: none; /* Ensure no underline on hover */
 }
-
 main {
     padding: 30px;
     text-align: center;
