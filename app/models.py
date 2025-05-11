@@ -21,7 +21,8 @@ class User(db.Model):
     daily_goal_minutes: Mapped[int] = mapped_column(Integer, default=30, nullable=False)
     receive_reminder: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     receive_email: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-
+    # Flask-Login required attribute
+    #is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     # Relationship
     courses: Mapped[list["Course"]] = relationship("Course", back_populates="teacher")
     user_languages: Mapped[list["Userlanguage"]] = relationship("Userlanguage", back_populates="user")

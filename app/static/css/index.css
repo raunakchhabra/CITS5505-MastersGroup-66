@@ -74,29 +74,30 @@ body {
 
 /* Hero Section */
 .hero {
-    display: flex;
+    display: flex; /* Keep display flex for potential future layout adjustments */
     width: 100%;
     height: 480px;
-    margin-top: 80px; /* 紧贴导航栏 */
+    margin-top: 80px; /* Adjusted to be below the navbar */
 }
 
 .hero-left {
     flex: 1;
     background: linear-gradient(to bottom right, #1e40ff, #6bf2d9);
     color: white;
-    padding: 2rem;
+    padding: 2rem 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start
 }
 
 .hero-left h1 {
-    font-size: 2rem;
+    font-size: 3.5rem;
     margin-bottom: 1rem;
 }
 
 .hero-left p {
-    font-size: 1rem;
+    font-size: 1.8rem;
     margin-bottom: 1.5rem;
 }
 
@@ -106,20 +107,10 @@ body {
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-decoration: none;
 }
 
-.hero-right {
-    flex: 1;
-    overflow: hidden;
-}
-
-.hero-right img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 /* Language Section */
 .language-options {
     position: relative;
@@ -262,12 +253,14 @@ body {
 
 /* Why Choose Section */
 .why-choose {
-    padding: 4rem 4rem; /* Adjusted padding to align with page margins */
-    text-align: center;
+    padding: 8rem 4rem; /* Adjusted padding to align with page margins */
+    text-align: center;/* Adjusted height to accommodate content */
+    height: 100vh;
+    display: flex;
 }
 
 .why-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -279,20 +272,27 @@ body {
 .why-content {
     display: flex;
     gap: 2rem;
+    align-items: flex-start; 
+    flex-wrap: wrap;
 }
 
 .why-left {
     flex: 1;
     text-align: left;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .why-item {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
     cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .why-item h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
 
@@ -301,18 +301,21 @@ body {
 }
 
 .why-item p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: #666;
 }
 
 .why-right {
     flex: 1;
     position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .why-image {
     width: 100%;
-    height: 300px;
+    height: auto;
+    max-height: 500px;
     object-fit: cover;
     border-radius: 10px;
     display: none;

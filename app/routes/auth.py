@@ -1,3 +1,4 @@
+#auth.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user
 from app.extensions import db
@@ -47,4 +48,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
-
