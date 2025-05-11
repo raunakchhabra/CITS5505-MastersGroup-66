@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload_data.css') }}">
+{% endblock %}
 {% block content %}
 <div class="container py-4">
     <div class="row">
