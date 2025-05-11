@@ -1,91 +1,73 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - LinguaTrack</title>
+    <title>About Us - LinguaTrack</title>
     <link rel="stylesheet" href="/static/css/about.css">
+    <style>
+        .team-member {
+            text-align: center;
+        }
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="logo">LinguaTrack</div>
         <nav>
-            <button class="nav-btn">Courses</button>
-            <button class="nav-btn">Dashboard</button>
-            <button class="nav-btn">Exercises</button>
-            <button class="nav-btn profile-btn">Profile</button>
+            <a class="nav-btn" href="{{ url_for('main.courses') }}">Courses</a>
+            <a class="nav-btn" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+            <a class="nav-btn" href="{{ url_for('main.exercises') }}">Exercises</a>
+            <a class="nav-btn profile-btn" href="{{ url_for('main.profile') }}">Profile</a>
         </nav>
     </header>
     <main>
-        <h1>About LinguaTrack</h1>
+        <h1>About the Brilliant Minds Behind LinguaTrack</h1>
         <section class="intro">
-            <h2>Our Mission</h2>
-            <p>LinguaTrack is dedicated to making language learning accessible, fun, and effective for everyone. We believe that learning a new language opens doors to new cultures and opportunities.</p>
+            <h2>Our Driving Force</h2>
+            <p>LinguaTrack is the passionate creation of a dedicated team committed to revolutionizing language learning. We believe in the power of collaboration and innovation to build a platform that truly empowers learners.</p>
         </section>
         <section class="team">
-            <h2>Meet Our Team</h2>
+            <h2>Meet Our Exceptional Team</h2>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="https://via.placeholder.com/80" alt="Team Member">
-                    <h3>Emily Smith</h3>
-                    <p>Founder & CEO</p>
+                    <img src="https://avatars.githubusercontent.com/u/124830797?v=4" alt="Lulu Zhang">
+                    <h3>Lulu Zhang</h3>
+                    <p>GitHub: Cynthia-zll</p>
+                    <p>Student ID: 24114899</p>
                 </div>
                 <div class="team-member">
-                    <img src="https://via.placeholder.com/80" alt="Team Member">
-                    <h3>Mark Johnson</h3>
-                    <p>Lead Developer</p>
+                    <img src="https://avatars.githubusercontent.com/u/61374513?v=4" alt="Raunak Chhabra">
+                    <h3>Raunak Chhabra</h3>
+                    <p>GitHub: raunakchhabra</p>
+                    <p>Student ID: 23914274</p>
                 </div>
                 <div class="team-member">
-                    <img src="https://via.placeholder.com/80" alt="Team Member">
-                    <h3>Lisa Brown</h3>
-                    <p>Language Expert</p>
+                    <img src="https://avatars.githubusercontent.com/u/80479187?v=4" alt="Julie Lei">
+                    <h3>Julie Lei</h3>
+                    <p>GitHub: Juliet-L</p>
+                    <p>Student ID: 24172041</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://avatars.githubusercontent.com/u/81485838?v=4" alt="Yao Qin">
+                    <h3>Yao Qin</h3>
+                    <p>GitHub: 5km5km</p>
+                    <p>Student ID: 24144144</p>
                 </div>
             </div>
+            <p class="team-message">Together, our diverse skills and shared passion for technology and education drive us to create the best possible language learning experience for you.</p>
         </section>
         <section class="contact">
-            <h2>Get in Touch</h2>
+            <h2>Connect With Us</h2>
+            <p>We're always eager to hear from our community! Feel free to reach out with your feedback and ideas.</p>
             <p>Email: support@linguatrack.com</p>
-            <p>Follow us on social media for updates!</p>
-            <button class="action-btn contact-btn">Contact Us</button>
         </section>
     </main>
     <footer>
