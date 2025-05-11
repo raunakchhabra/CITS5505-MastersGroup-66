@@ -17,6 +17,31 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/auth/google';
         });
     }
+    
+    // Floating Label Logic
+    const floatingLabelGroups = document.querySelectorAll('.floating-label-group');
+
+    floatingLabelGroups.forEach(group => {
+        const input = group.querySelector('.form-control');
+        const label = group.querySelector('.form-label');
+
+        if (input && label) {
+            input.addEventListener('focus', () => {
+                label.classList.add('focused');
+            });
+
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    label.classList.remove('focused');
+                }
+            });
+
+          
+            if (input.value) {
+                label.classList.add('focused');
+            }
+        }
+    });
 
     // Registration Logic
     const registerForm = document.querySelector('form');

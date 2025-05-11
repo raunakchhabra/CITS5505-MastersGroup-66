@@ -24,14 +24,16 @@
           {{ form.password.label }}
         </div>
 
-        <div class="input-group">
-          {{ form.remember() }} {{ form.remember.label }}
+        <div class="input-group remember-me-container">
+          {{ form.remember(id="remember") }}
+        <label for="remember">
+          {{ form.remember.label.text }}
+        </label>
         </div>
-
+        
         {{ form.submit(class="btn btn-primary") }}
-
         <button type="button" onclick="window.location.href='/forgot-password.html'">Forget Password</button>
-        <p class="register-link">Don't have an account? Register</p>
+        <p class="register-link">Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
       </form>
 
       <div class="social-login">
