@@ -54,6 +54,3 @@ def share_data():
 def visualize_data():
     return render_template('visualize_data.html', title='Visualize Data')
 
-@main_bp.route('/upload_data')
-def upload_data():
-    return render_template('upload_data.html', title='Upload Data')
