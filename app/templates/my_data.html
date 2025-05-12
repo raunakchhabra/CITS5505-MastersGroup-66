@@ -1,68 +1,103 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="container py-4">
-    <h1 class="mb-4">My Data</h1>
+{% set title = "My Data" %}
 
-    {% if data %}
-        <div class="row">
-            {% for item in data %}
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">{{ item.title }}</h5>
-                            <span class="badge {% if item.data_type.value == 'vocabulary' %}bg-success
-                                   {% elif item.data_type.value == 'study_time' %}bg-primary
-                                   {% elif item.data_type.value == 'assessment' %}bg-warning
-                                   {% else %}bg-secondary{% endif %}">
-                                {{ item.data_type.name }}
-                            </span>
-                        </div>
-                        <div class="card-body">
-                            {% if item.description %}
-                                <p>{{ item.description }}</p>
-                            {% endif %}
-                            
-                            {% if item.file_path %}
-                                <p><strong>File:</strong> {{ item.file_path.split('/')[-1] }}</p>
-                            {% endif %}
-                            
-                            {% if item.content %}
-                                <p><strong>Content:</strong><br>{{ item.content }}</p>
-                            {% endif %}
-                            
-                            {% if item.metadata %}
-                                <div class="mt-3">
-                                    <strong>Details:</strong>
-                                    <ul class="list-unstyled">
-                                        {% for key, value in item.metadata.items() %}
-                                            <li><strong>{{ key|title }}:</strong> {{ value }}</li>
-                                        {% endfor %}
-                                    </ul>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/my_data.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">My Data</h2>
+        <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-primary">Upload New Data</a>
+    </div>
+
+    <!-- Tabs for User Data and Shared Data -->
+    <ul class="nav nav-tabs" id="dataTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="my-data-tab" data-bs-toggle="tab" data-bs-target="#my-data" type="button" role="tab" aria-controls="my-data" aria-selected="true">
+                My Uploads ({{ user_data|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="shared-data-tab" data-bs-toggle="tab" data-bs-target="#shared-data" type="button" role="tab" aria-controls="shared-data" aria-selected="false">
+                Shared with Me ({{ shared_data|length }})
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="dataTabContent">
+        <!-- My Data Tab -->
+        <div class="tab-pane fade show active" id="my-data" role="tabpanel" aria-labelledby="my-data-tab">
+            {% if user_data %}
+                <div class="row">
+                    {% for data in user_data %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card data-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title mb-0">{{ data.title|truncate(50) }}</h5>
+                                    <span class="badge data-type-badge">
+                                        {{ data.data_type.value|title }}
+                                    </span>
                                 </div>
-                            {% endif %}
-                            
-                            <div class="text-muted small mt-3">
-                                Uploaded: {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
-                                {% if item.created_at != item.updated_at %}
-                                    <br>Updated: {{ item.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% if data.description %}
+                                <p class="card-text text-muted">{{ data.description|truncate(100) }}</p>
                                 {% endif %}
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-sm btn-outline-primary">View Details</button>
-                                <button class="btn btn-sm btn-outline-success">Share</button>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{ data.created_at.strftime('%B %d, %Y') }}</small>
+                                    <a href="{{ url_for('upload_data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted mb-3">You haven't uploaded any data yet.</p>
+                    <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-primary">Upload Your First Data</a>
+                </div>
+            {% endif %}
         </div>
-    {% else %}
-        <div class="alert alert-info">
-            <p class="mb-0">You don't have any data yet. <a href="{{ url_for('data.upload') }}">Upload some data</a> to get started!</p>
+
+        <!-- Shared Data Tab -->
+        <div class="tab-pane fade" id="shared-data" role="tabpanel" aria-labelledby="shared-data-tab">
+            {% if shared_data %}
+                <div class="row">
+                    {% for data in shared_data %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card data-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title mb-0">{{ data.title|truncate(50) }}</h5>
+                                    <span class="badge data-type-badge">
+                                        {{ data.data_type.value|title }}
+                                    </span>
+                                </div>
+                                {% if data.description %}
+                                <p class="card-text text-muted">{{ data.description|truncate(100) }}</p>
+                                {% endif %}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Shared by {{ data.user.name }}</small>
+                                    <a href="{{ url_for('upload_data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted">No data has been shared with you yet.</p>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/my_data.js') }}"></script>
 {% endblock %}

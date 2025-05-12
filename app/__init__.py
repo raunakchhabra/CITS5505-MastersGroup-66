@@ -23,11 +23,11 @@ def create_app(config_class=Config):
    
         from app.routes.main import main_bp
         from app.routes.auth import auth_bp
-        from app.routes.data import data_bp
+        from app.routes.upload_data import upload_data_bp
 
         app.register_blueprint(main_bp)
         app.register_blueprint(auth_bp)
-        app.register_blueprint(data_bp)
+        app.register_blueprint(upload_data_bp)
 
         # db.create_all()
 
