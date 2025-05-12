@@ -8,12 +8,12 @@ from enum import Enum
 from sqlalchemy import Enum as SAEnum, JSON, String
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(Text, nullable=False)
     email: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     password_hash: Mapped[str] = mapped_column(Text, nullable=False)
-    
+
     role: Mapped[str] = mapped_column(Text, default="student", nullable=False)
     xp: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     streak_days: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
@@ -21,8 +21,8 @@ class User(db.Model):
     daily_goal_minutes: Mapped[int] = mapped_column(Integer, default=30, nullable=False)
     receive_reminder: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     receive_email: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    # Flask-Login required attribute
-    #is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
     # Relationship
     courses: Mapped[list["Course"]] = relationship("Course", back_populates="teacher")
     user_languages: Mapped[list["Userlanguage"]] = relationship("Userlanguage", back_populates="user")
@@ -32,16 +32,20 @@ class User(db.Model):
     exercise_submissions: Mapped[list["Exercisesubmission"]] = relationship("Exercisesubmission", back_populates="user")
     user_achievements: Mapped[list["Userachievement"]] = relationship("Userachievement", back_populates="user")
     forum_posts: Mapped[list["Forumpost"]] = relationship("Forumpost", back_populates="user")
-    friendships: Mapped[list["Friendship"]] = relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user")
-    friends_of: Mapped[list["Friendship"]] = relationship("Friendship", foreign_keys='Friendship.friend_id', back_populates="friend")
+    friendships: Mapped[list["Friendship"]] = relationship("Friendship", foreign_keys='Friendship.user_id',
+                                                           back_populates="user")
+    friends_of: Mapped[list["Friendship"]] = relationship("Friendship", foreign_keys='Friendship.friend_id',
+                                                          back_populates="friend")
     recommendations: Mapped[list["Recommendation"]] = relationship("Recommendation", back_populates="user")
     share_groups: Mapped[list["Sharegroup"]] = relationship("Sharegroup", back_populates="owner")
     share_group_memberships: Mapped[list["Sharegroupmember"]] = relationship("Sharegroupmember", back_populates="user")
-    shared_records: Mapped[list["Sharerecord"]] = relationship("Sharerecord", foreign_keys='Sharerecord.owner_id', back_populates="owner")
-    shared_with_me: Mapped[list["Sharerecord"]] = relationship("Sharerecord", foreign_keys='Sharerecord.target_user_id', back_populates="target_user")
+    shared_records: Mapped[list["Sharerecord"]] = relationship("Sharerecord", foreign_keys='Sharerecord.owner_id',
+                                                               back_populates="owner")
+    shared_with_me: Mapped[list["Sharerecord"]] = relationship("Sharerecord", foreign_keys='Sharerecord.target_user_id',
+                                                               back_populates="target_user")
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
