@@ -13,19 +13,19 @@
         <div class="col-md-3 col-lg-2 sidebar p-3">
             <h5 class="mb-3">Upload Options</h5>
             <nav class="nav flex-column">
-                <a class="nav-link-sidebar {% if upload_type == 'study_session' %}active{% endif %}" href="{{ url_for('upload_data_bp.upload', upload_type='study_session') }}">
+                <a class="nav-link-sidebar {% if upload_type == 'study_session' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='study_session') }}">
                     <span class="me-2">⏱️</span> Study Session
                 </a>
-                <a class="nav-link-sidebar {% if upload_type == 'assessment' %}active{% endif %}" href="{{ url_for('upload_data_bp.upload', upload_type='assessment') }}">
+                <a class="nav-link-sidebar {% if upload_type == 'assessment' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='assessment') }}">
                     <span class="me-2">📝</span> Assessment Results
                 </a>
-                <a class="nav-link-sidebar {% if upload_type == 'vocabulary' %}active{% endif %}" href="{{ url_for('upload_data_bp.upload', upload_type='vocabulary') }}">
+                <a class="nav-link-sidebar {% if upload_type == 'vocabulary' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}">
                     <span class="me-2">📚</span> Vocabulary Lists
                 </a>
-                <a class="nav-link-sidebar {% if upload_type == 'goals' %}active{% endif %}" href="{{ url_for('upload_data_bp.upload', upload_type='goals') }}">
+                <a class="nav-link-sidebar {% if upload_type == 'goals' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='goals') }}">
                     <span class="me-2">🎯</span> Learning Goals
                 </a>
-                <a class="nav-link-sidebar {% if upload_type == 'import' %}active{% endif %}" href="{{ url_for('upload_data_bp.upload', upload_type='import') }}">
+                <a class="nav-link-sidebar {% if upload_type == 'import' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='import') }}">
                     <span class="me-2">📊</span> Import from App
                 </a>
             </nav>
@@ -33,7 +33,7 @@
             <h5 class="mt-4 mb-3">Recent Uploads</h5>
             <div class="list-group">
                 {% for upload in recent_uploads %}
-                <a href="{{ url_for('upload_data_bp.view', id=upload.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('data_bp.view', id=upload.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     {{ upload.title }}
                     <span class="badge bg-{% if upload.days_ago == 0 %}primary{% else %}secondary{% endif %} rounded-pill">
                         {% if upload.days_ago == 0 %}Today
@@ -50,7 +50,7 @@
         <div class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="mb-0">Upload Data</h2>
-                <a href="{{ url_for('upload_data_bp.my_data') }}" class="btn btn-outline-secondary">View All Data</a>
+                <a href="{{ url_for('data_bp.my_data') }}" class="btn btn-outline-secondary">View All Data</a>
             </div>
 
             <!-- Upload Options Cards -->
@@ -61,7 +61,7 @@
                             <div class="upload-icon">⏱️</div>
                             <h5 class="card-title">Log Study Session</h5>
                             <p class="card-text">Record your study time, activities, and materials used.</p>
-                            <a href="{{ url_for('upload_data_bp.upload', upload_type='study_session') }}" class="btn btn-primary">Start Logging</a>
+                            <a href="{{ url_for('data_bp.upload', upload_type='study_session') }}" class="btn btn-primary">Start Logging</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <div class="upload-icon">📝</div>
                             <h5 class="card-title">Assessment Results</h5>
                             <p class="card-text">Upload scores from tests, quizzes, or evaluations.</p>
-                            <a href="{{ url_for('upload_data_bp.upload', upload_type='assessment') }}" class="btn btn-primary">Add Results</a>
+                            <a href="{{ url_for('data_bp.upload', upload_type='assessment') }}" class="btn btn-primary">Add Results</a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                             <div class="upload-icon">📚</div>
                             <h5 class="card-title">Vocabulary Lists</h5>
                             <p class="card-text">Add new vocabulary words or import word lists.</p>
-                            <a href="{{ url_for('upload_data_bp.upload', upload_type='vocabulary') }}" class="btn btn-primary">Manage Vocabulary</a>
+                            <a href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}" class="btn btn-primary">Manage Vocabulary</a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                     <h5 class="mb-0">Log Study Session</h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('upload_data_bp.upload_study_session') }}">
+                    <form method="POST" action="{{ url_for('data_bp.upload_study_session') }}">
                         {{ form.hidden_tag() }}
 
                         <div class="row mb-3">
@@ -165,7 +165,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
                             {{ form.submit(class="btn btn-primary") }}
                         </div>
                     </form>
@@ -178,7 +178,7 @@
                     <h5 class="mb-0">Add Assessment Results</h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('upload_data_bp.upload_assessment') }}">
+                    <form method="POST" action="{{ url_for('data_bp.upload_assessment') }}">
                         {{ form.hidden_tag() }}
 
                         <div class="row mb-3">
@@ -260,7 +260,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
                             {{ form.submit(class="btn btn-primary") }}
                         </div>
                     </form>
@@ -273,7 +273,7 @@
                     <h5 class="mb-0">Add Vocabulary</h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('upload_data_bp.upload_vocabulary') }}">
+                    <form method="POST" action="{{ url_for('data_bp.upload_vocabulary') }}">
                         {{ form.hidden_tag() }}
 
                         <div class="row mb-3">
@@ -316,7 +316,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
                             {{ form.submit(class="btn btn-primary") }}
                         </div>
                     </form>
@@ -332,7 +332,7 @@
                 <div class="card-body">
                     <p class="card-text mb-4">Import data from CSV or Excel files for quick bulk uploads of vocabulary, assessment results, or study logs.</p>
 
-                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_data_bp.bulk_upload') }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('data_bp.bulk_upload') }}">
                         {{ bulk_form.hidden_tag() }}
 
                         <div class="drop-zone mb-3" id="dropZone">

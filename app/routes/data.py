@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 import json
 import os
 
-upload_data_bp = Blueprint('upload_data_bp', __name__, url_prefix='/data')
+data_bp = Blueprint('data_bp', __name__, url_prefix='/data')
 
 
-@upload_data_bp.route('/upload')
-@upload_data_bp.route('/upload/<upload_type>')
+@data_bp.route('/upload')
+@data_bp.route('/upload/<upload_type>')
 @login_required
 def upload(upload_type=None):
     """Main upload page with different data types"""
@@ -38,7 +38,7 @@ def upload(upload_type=None):
                            bulk_form=bulk_form,
                            recent_uploads=recent_uploads)
 
-@upload_data_bp.route('/upload/study_session', methods=['POST'])
+@data_bp.route('/upload/study_session', methods=['POST'])
 @login_required
 def upload_study_session():
     """Handle study session upload"""
@@ -76,13 +76,13 @@ def upload_study_session():
         db.session.commit()
 
         flash('Study session logged successfully!', 'success')
-        return redirect(url_for('upload_data_bp.my_data'))
+        return redirect(url_for('data_bp.my_data'))
 
     # If validation fails, return to form with errors
-    return redirect(url_for('upload_data_bp.upload', upload_type='study_session'))
+    return redirect(url_for('data_bp.upload', upload_type='study_session'))
 
 
-@upload_data_bp.route('/upload/assessment', methods=['POST'])
+@data_bp.route('/upload/assessment', methods=['POST'])
 @login_required
 def upload_assessment():
     """Handle assessment upload"""
@@ -111,13 +111,13 @@ def upload_assessment():
         db.session.commit()
 
         flash('Assessment results added successfully!', 'success')
-        return redirect(url_for('upload_data_bp.my_data'))
+        return redirect(url_for('data_bp.my_data'))
 
     # If validation fails, return to form with errors
-    return redirect(url_for('upload_data_bp.upload', upload_type='assessment'))
+    return redirect(url_for('data_bp.upload', upload_type='assessment'))
 
 
-@upload_data_bp.route('/upload/vocabulary', methods=['POST'])
+@data_bp.route('/upload/vocabulary', methods=['POST'])
 @login_required
 def upload_vocabulary():
     """Handle vocabulary upload"""
@@ -144,13 +144,13 @@ def upload_vocabulary():
         db.session.commit()
 
         flash('Vocabulary added successfully!', 'success')
-        return redirect(url_for('upload_data_bp.upload', upload_type='vocabulary'))
+        return redirect(url_for('data_bp.upload', upload_type='vocabulary'))
 
     # If validation fails, return to form with errors
-    return redirect(url_for('upload_data_bp.upload', upload_type='vocabulary'))
+    return redirect(url_for('data_bp.upload', upload_type='vocabulary'))
 
 
-@upload_data_bp.route('/upload/bulk', methods=['POST'])
+@data_bp.route('/upload/bulk', methods=['POST'])
 @login_required
 def bulk_upload():
     """Handle bulk file upload"""
@@ -189,13 +189,13 @@ def bulk_upload():
             db.session.commit()
 
             flash('File uploaded successfully! Processing will begin shortly.', 'success')
-            return redirect(url_for('upload_data_bp.my_data'))
+            return redirect(url_for('data_bp.my_data'))
 
     flash('Error uploading file. Please try again.', 'error')
-    return redirect(url_for('upload_data_bp.upload'))
+    return redirect(url_for('data_bp.upload'))
 
 
-@upload_data_bp.route('/my_data')
+@data_bp.route('/my_data')
 @login_required
 def my_data():
     """Display user's uploaded data"""
@@ -209,7 +209,7 @@ def my_data():
     return render_template('my_data.html', user_data=user_data, shared_data=shared_data)
 
 
-@upload_data_bp.route('/view/<int:id>')
+@data_bp.route('/view/<int:id>')
 @login_required
 def view(id):
     """View specific data entry"""
@@ -221,12 +221,12 @@ def view(id):
         shared = SharedData.query.filter_by(data_id=id, recipient_id=current_user.id).first()
         if not shared:
             flash('You do not have permission to view this data.', 'error')
-            return redirect(url_for('upload_data_bp.my_data'))
+            return redirect(url_for('data_bp.my_data'))
 
     return render_template('view_data.html', data=data)
 
 
-@upload_data_bp.route('/delete/<int:id>', methods=['POST'])
+@data_bp.route('/delete/<int:id>', methods=['POST'])
 @login_required
 def delete(id):
     """Delete a data entry"""
@@ -235,7 +235,7 @@ def delete(id):
     # Check if user owns the data
     if data.user_id != current_user.id:
         flash('You do not have permission to delete this data.', 'error')
-        return redirect(url_for('upload_data_bp.my_data'))
+        return redirect(url_for('data_bp.my_data'))
 
     # Delete associated file if exists
     if data.file_path and os.path.exists(data.file_path):
@@ -248,7 +248,7 @@ def delete(id):
     db.session.commit()
 
     flash('Data deleted successfully.', 'success')
-    return redirect(url_for('upload_data_bp.my_data'))
+    return redirect(url_for('data_bp.my_data'))
 
 
 def get_recent_uploads(user_id, limit=5):
