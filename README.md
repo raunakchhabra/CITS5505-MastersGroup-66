@@ -41,6 +41,14 @@ It enables:
 4. **Run the application:**  
    `python3 run.py`
 
+5. **Database migration**
+```bash
+# 1. Skip the problematic migration
+flask db stamp 78294d82a87b
+# 2. Apply the remaining migrations
+flask db upgrade head
+```
+   
 ---
 
 ## 🏗️ Project Features
