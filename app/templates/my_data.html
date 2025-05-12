@@ -10,7 +10,7 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">My Data</h2>
-        <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-primary">Upload New Data</a>
+        <a href="{{ url_for('data_bp.upload') }}" class="btn btn-primary">Upload New Data</a>
     </div>
 
     <!-- Tabs for User Data and Shared Data -->
@@ -47,7 +47,7 @@
                                 {% endif %}
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">{{ data.created_at.strftime('%B %d, %Y') }}</small>
-                                    <a href="{{ url_for('upload_data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ url_for('data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
             {% else %}
                 <div class="text-center py-5">
                     <p class="text-muted mb-3">You haven't uploaded any data yet.</p>
-                    <a href="{{ url_for('upload_data_bp.upload') }}" class="btn btn-primary">Upload Your First Data</a>
+                    <a href="{{ url_for('data_bp.upload') }}" class="btn btn-primary">Upload Your First Data</a>
                 </div>
             {% endif %}
         </div>
@@ -81,7 +81,7 @@
                                 {% endif %}
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Shared by {{ data.user.name }}</small>
-                                    <a href="{{ url_for('upload_data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ url_for('data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
                                 </div>
                             </div>
                         </div>

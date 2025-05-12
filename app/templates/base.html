@@ -22,13 +22,10 @@
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ url_for('data_bp.upload') }}">Upload Data</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('upload_data_bp.upload') }}">Upload Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('upload_data_bp.my_data') }}">My Data</a>
+                        <a class="nav-link" href="{{ url_for('data_bp.my_data') }}">My Data</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -64,7 +61,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        
+
         {% block content %}{% endblock %}
     </div>
 
