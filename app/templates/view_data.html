@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% set title = "View Data" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/view_data.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Header -->
+            <div class="data-header">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h2 class="mb-2">{{ data.title }}</h2>
+                        <div class="d-flex align-items-center">
+                            <span class="badge data-type-badge me-2">
+                                {{ data.data_type.value|title }}
+                            </span>
+                            <small class="text-muted">
+                                Uploaded on {{ data.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('upload_data_bp.my_data') }}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    {% if data.description %}
+                    <h5 class="card-title">Description</h5>
+                    <p class="card-text mb-4">{{ data.description }}</p>
+                    {% endif %}
+
+                    {% if data.content %}
+                    <h5 class="card-title">Content</h5>
+                    <div class="json-content mb-4">{{ data.content }}</div>
+                    {% endif %}
+
+                    {% if data.file_path %}
+                    <h5 class="card-title">File Details</h5>
+                    <div class="metadata-table mb-4">
+                        <table class="table table-sm mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-semibold" style="width: 30%;">Original Filename:</td>
+                                    <td>{{ data.extra_metadata.get('original_filename', 'N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semibold">File Size:</td>
+                                    <td>{{ data.extra_metadata.get('file_size', 0)|filesizeformat }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semibold">Upload Path:</td>
+                                    <td>{{ data.file_path }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+
+                    {% if data.extra_metadata %}
+                    <h5 class="card-title">Additional Metadata</h5>
+                    <div class="json-content">{{ data.extra_metadata|tojson(indent=2) }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Actions</h5>
+                    <div class="d-flex action-buttons">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Share functionality coming soon!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Edit functionality coming soon!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this data? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="{{ url_for('upload_data_bp.delete', id=data.id) }}" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/view_data.js') }}"></script>
+{% endblock %}

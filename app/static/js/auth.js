@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    window.location.href = '/dashboard.html';
+                    window.location.href = '/index.html';
                 } else {
                     const errorDiv = document.createElement('div');
                     errorDiv.className = 'error-message';

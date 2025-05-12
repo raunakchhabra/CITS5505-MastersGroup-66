@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload_data.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="mb-4">Upload Data</h1>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="uploadTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-content" 
+                                type="button" role="tab" aria-controls="file-content" aria-selected="true">
+                                File Upload
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="study-tab" data-bs-toggle="tab" data-bs-target="#study-content" 
+                                type="button" role="tab" aria-controls="study-content" aria-selected="false">
+                                Log Study Session
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body">
+                    <div class="tab-content" id="uploadTabsContent">
+                        <!-- File Upload Form -->
+                        <div class="tab-pane fade show active" id="file-content" role="tabpanel" aria-labelledby="file-tab">
+                            <form action="{{ url_for('data.upload_file') }}" method="POST" enctype="multipart/form-data">
+                                {{ data_upload_form.hidden_tag() }}
+                                
+                                <div class="mb-3">
+                                    {{ data_upload_form.title.label(class="form-label") }}
+                                    {{ data_upload_form.title(class="form-control", placeholder="Enter a title for your data") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ data_upload_form.data_type.label(class="form-label") }}
+                                    {{ data_upload_form.data_type(class="form-select") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ data_upload_form.description.label(class="form-label") }}
+                                    {{ data_upload_form.description(class="form-control", rows="3", placeholder="Optional description") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ data_upload_form.file.label(class="form-label") }}
+                                    <div class="input-group">
+                                        {{ data_upload_form.file(class="form-control") }}
+                                    </div>
+                                    <div class="form-text">Supported formats: CSV, Excel, Text, JSON</div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    {{ data_upload_form.submit(class="btn btn-primary") }}
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Study Session Form -->
+                        <div class="tab-pane fade" id="study-content" role="tabpanel" aria-labelledby="study-tab">
+                            <form action="{{ url_for('data.log_study_session') }}" method="POST">
+                                {{ study_session_form.hidden_tag() }}
+                                
+                                <div class="mb-3">
+                                    {{ study_session_form.title.label(class="form-label") }}
+                                    {{ study_session_form.title(class="form-control", placeholder="e.g., Spanish Grammar Practice") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ study_session_form.date.label(class="form-label") }}
+                                    {{ study_session_form.date(class="form-control", type="date") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ study_session_form.duration.label(class="form-label") }}
+                                    {{ study_session_form.duration(class="form-control", type="number", min="1") }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    {{ study_session_form.content.label(class="form-label") }}
+                                    {{ study_session_form.content(class="form-control", rows="4", placeholder="Notes about your study session") }}
+                                </div>
+                                
+                                <div class="d-grid">
+                                    {{ study_session_form.submit(class="btn btn-success") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Uploads Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Uploads</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% if current_user.data %}
+                            {% for item in current_user.data|sort(attribute='created_at', reverse=True)|slice(0, 5) %}
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                        <small>{{ item.created_at.strftime('%Y-%m-%d') }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ item.description|default('No description', true) }}</p>
+                                    <small>Type: {{ item.data_type.name }}</small>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">No uploads yet. Start by uploading your first data!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add date picker initialization if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date');
+        if (dateInput) {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+        }
+    });
+</script>
+{% endblock %}

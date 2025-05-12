@@ -9,10 +9,6 @@ main_bp = Blueprint('main', __name__)
 def index():
     return render_template('index.html', title='Home')
 
-@main_bp.route('/dashboard')
-def dashboard():  #  No login_required for demo
-    return render_template('dashboard.html', title='Dashboard')
-
 # new route for demo by Julie 11 MAY 2025
 @main_bp.route('/about')
 def about():
