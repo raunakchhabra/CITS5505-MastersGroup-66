@@ -1,83 +1,12 @@
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #fff;
-    color: #333;
-}
-
-/* Navbar */
-.navbar {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    background-color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    z-index: 100;
-}
-
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 3rem;
-    width: 100%;
-}
-.nav-links {
-    margin-left: auto;
-    display: flex;
-    gap: 1rem;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #0040ff;
-    text-decoration: none;
-}
-
-.nav-links a {
-    margin-left: 1rem;
-    padding: 0.5rem 1.25rem;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: 500;
-}
-
-.btn-outline {
-    border: 1px solid #0040ff;
-    color: #0040ff;
-}
-
-.btn-primary {
-    background-color: #0040ff;
-    color: white;
-}
-
-.btn-green {
-    background-color: #28a745;
-    color: white;
-}
-
-.btn-primary.big, .btn-green.big {
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    display: inline-block;
-    margin-top: 1.5rem;
-    border-radius: 30px;
-}
+/* Index Page Specific Styles */
 
 /* Hero Section */
 .hero {
-    display: flex; /* Keep display flex for potential future layout adjustments */
+    display: flex;
     width: 100%;
     height: 480px;
-    margin-top: 80px; /* Adjusted to be below the navbar */
+    margin-top: -56px; /* Negative margin to account for fixed navbar */
+    padding-top: 56px; /* Padding to push content below navbar */
 }
 
 .hero-left {
@@ -88,27 +17,46 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start
+    align-items: flex-start;
 }
 
 .hero-left h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    font-weight: 700;
 }
 
 .hero-left p {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
+    opacity: 0.95;
 }
 
-.hero-left .btn-green {
-    align-self: center;
+.btn-green {
     background-color: #28a745;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 30px;
     font-size: 1.5rem;
     text-decoration: none;
+    border: none;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+.btn-green:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-primary.big,
+.btn-green.big {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    display: inline-block;
+    margin-top: 1.5rem;
+    border-radius: 30px;
 }
 
 /* Language Section */
@@ -118,10 +66,9 @@ body {
     transform: translateY(-40px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     background: #fff;
-
-    padding: 6rem 4rem 4rem; /* Adjusted padding to align with page margins */
+    padding: 6rem 4rem 4rem;
     border-radius: 20px;
-    margin: 0 4rem; /* Adjusted margin to align with page margins */
+    margin: 0 4rem;
 }
 
 .language-container {
@@ -138,34 +85,36 @@ body {
 
 .languages {
     display: flex;
-    flex-wrap: non-wrap;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 4rem;
     width: 100%;
 }
+
 .language {
     transition: all 0.3s ease;
     padding: 1rem;
     border-radius: 20px;
 }
+
 .language-link {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
+    transition: transform 0.3s ease;
 }
+
+.language-link:hover {
+    transform: translateY(-4px);
+}
+
 .language.selected {
     outline: 5px solid #28a745;
     outline-offset: 2px;
     box-shadow: 0 6px 16px rgba(0, 64, 255, 0.2);
     transform: scale(1.05);
     background-color: #f0f8ff;
-    transform: scale(1.1); 
-}
-
-.language-link:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .language img {
@@ -174,7 +123,11 @@ body {
     border-radius: 50%;
     transition: transform 0.2s ease;
     object-fit: cover;
-    box-shadow: 0 3px 6px rgba(85, 74, 74, 0.918);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.language-link:hover img {
+    transform: scale(1.1);
 }
 
 .language-btn {
@@ -192,11 +145,12 @@ body {
 .language-link:hover .language-btn {
     background-color: #28a745;
 }
-/* Learning Goals Section */
+
 /* Learning Goals Section */
 .learning-goals {
-    padding: 4rem 4rem; /* Adjusted padding to align with page margins */
+    padding: 4rem 4rem;
     text-align: center;
+    background-color: #f8f9fa;
 }
 
 .goals-container {
@@ -207,12 +161,14 @@ body {
 .goals-container h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
+    color: #222;
 }
 
 .goals {
     display: flex;
     gap: 2rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .goal {
@@ -221,42 +177,46 @@ body {
     text-align: left;
 }
 
-.goal-link { 
+.goal-link {
     text-decoration: none;
-    color: inherit; 
-    display: block; 
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .goal-link:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 .goal img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .goal h3 {
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin: 1rem;
+    color: #222;
 }
 
 .goal p {
     font-size: 1rem;
     color: #666;
+    margin: 0 1rem 1rem 1rem;
 }
 
 /* Why Choose Section */
 .why-choose {
-    padding: 8rem 4rem; /* Adjusted padding to align with page margins */
-    text-align: center;/* Adjusted height to accommodate content */
-    height: 100vh;
-    display: flex;
+    padding: 6rem 4rem;
+    text-align: center;
+    background-color: white;
 }
 
 .why-container {
@@ -267,33 +227,43 @@ body {
 .why-container h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
+    color: #222;
 }
 
 .why-content {
     display: flex;
     gap: 2rem;
-    align-items: flex-start; 
-    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 2rem;
 }
 
 .why-left {
     flex: 1;
     text-align: left;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
 }
 
 .why-item {
     margin-bottom: 2rem;
-    padding: 1rem;
+    padding: 1.5rem;
     cursor: pointer;
     border-radius: 8px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.why-item:hover {
+    background-color: #f8f9fa;
+}
+
+.why-item.active {
+    background-color: #f0f8ff;
+    border-color: #3d5afe;
 }
 
 .why-item h3 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
+    color: #222;
 }
 
 .why-item.active h3 {
@@ -308,17 +278,16 @@ body {
 .why-right {
     flex: 1;
     position: relative;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
 }
 
 .why-image {
     width: 100%;
     height: auto;
-    max-height: 500px;
+    max-height: 400px;
     object-fit: cover;
     border-radius: 10px;
     display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .why-image.active {
@@ -327,7 +296,7 @@ body {
 
 /* Footer Section */
 .footer {
-    padding: 4rem 4rem; /* Adjusted padding to align with page margins */
+    padding: 4rem 4rem;
     background: linear-gradient(to right, #3d5afe, #7b61ff);
     color: white;
     text-align: center;
@@ -354,11 +323,21 @@ body {
 .footer-left p {
     font-size: 1rem;
     margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.store-buttons {
+    display: flex;
+    gap: 1rem;
 }
 
 .store-buttons img {
     height: 40px;
-    margin-right: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.store-buttons a:hover img {
+    transform: scale(1.05);
 }
 
 .footer-right {
@@ -383,11 +362,116 @@ body {
     align-items: center;
 }
 
-.award img {
-    height: 40px;
-    margin-bottom: 0.5rem;
-}
-
 .award p {
     font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .hero-left h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-left p {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 400px;
+    }
+
+    .hero-left {
+        padding: 2rem;
+    }
+
+    .hero-left h1 {
+        font-size: 2rem;
+    }
+
+    .hero-left p {
+        font-size: 1.2rem;
+    }
+
+    .btn-green {
+        font-size: 1.2rem;
+        padding: 0.6rem 1.2rem;
+    }
+
+    .language-options {
+        margin: 0 2rem;
+        padding: 4rem 2rem 3rem;
+    }
+
+    .languages {
+        gap: 2rem;
+    }
+
+    .language img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .goals {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .goal {
+        max-width: 100%;
+    }
+
+    .why-content {
+        flex-direction: column;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-left {
+        text-align: center;
+    }
+
+    .store-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-left h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-left p {
+        font-size: 1rem;
+    }
+
+    .language-options {
+        margin: 0 1rem;
+        padding: 3rem 1rem 2rem;
+        transform: translateY(-20px);
+    }
+
+    .languages {
+        gap: 1rem;
+        flex-direction: column;
+    }
+
+    .learning-goals,
+    .why-choose,
+    .footer {
+        padding: 3rem 1rem;
+    }
+
+    .why-item h3 {
+        font-size: 1.5rem;
+    }
+
+    .why-item p {
+        font-size: 1rem;
+    }
 }
