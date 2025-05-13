@@ -2,77 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="view`port" content="width=device-width, initial-scale=1.0">
-    <title>{% if title %}{{ title }} - {% endif %}LinguaTrack</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - LinguaTrack</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <!-- Block for additional styles -->
     {% block styles %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold text-primary" href="{{ url_for('main.index') }}">LinguaTrack</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
-                    </li>
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('data_bp.upload') }}">Upload Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('data_bp.my_data') }}">My Data</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <div class="navbar-nav">
-                    {% if current_user.is_authenticated %}
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ current_user.username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
-                    {% else %}
-                    <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-                    <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-                    {% endif %}
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-left">
+                <div class="hamburger-menu">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <a href="{{ url_for('main.index') }}" class="logo">LinguaTrack</a>
+                <div class="dropdown-menu left-dropdown">
+                    <ul class="dropdown-list">
+                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
+                        <li><a href="{{ url_for('main.exercises') }}">Exercises</a></li>
+                        <li><a href="{{ url_for('main.community') }}">Community</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                    </ul>
                 </div>
             </div>
+            <div class="nav-right">
+                {% if current_user.is_authenticated %}
+                    <div class="data-menu">
+                        <span class="data-text">Data</span>
+                        <div class="dropdown-menu data-dropdown">
+                            <ul class="dropdown-list">
+                                <li><a href="{{ url_for('data_bp.upload') }}">Upload Data</a></li>
+                                <li><a href="{{ url_for('data_bp.my_data') }}">My Data</a></li>
+                                <li><a href="{{ url_for('main.visualize_data') }}">Visualize Data</a></li>
+                                <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <span class="username">{{ current_user.username or 'User' }}</span>
+                        <div class="dropdown-menu right-dropdown">
+                            <ul class="dropdown-list">
+                                <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                                <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
+                                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="nav-links">
+                        <a href="{{ url_for('auth.login') }}" class="btn-outline">Log in</a>
+                        <a href="{{ url_for('auth.register') }}" class="btn-primary">Sign up</a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="container mt-4">
+    <!-- Main Content -->
+    <main class="{% block main_class %}container-fluid px-0{% endblock %}" style="margin-top: 56px;">
+        <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+                <div class="container mt-3">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
             {% endif %}
         {% endwith %}
 
+        <!-- Page Content -->
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
-    <footer class="footer mt-auto py-3 bg-light">
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
         <div class="container text-center">
             <span class="text-muted">© 2025 LinguaTrack. All rights reserved.</span>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Block for additional scripts -->
     {% block scripts %}{% endblock %}
 </body>
 </html>

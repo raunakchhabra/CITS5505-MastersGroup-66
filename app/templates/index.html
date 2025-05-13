@@ -1,157 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>LinguaTrack</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/index.css" />
-</head>
-<body>
+{% extends "base.html" %}
 
-<!-- Navbar -->
-<nav class="navbar">
-    <div class="navbar-container">
-        <a href="/" class="logo">LinguaTrack</a>
-        <div class="nav-links">
-            <a href="{{ url_for('auth.login') }}" class="btn-outline">Log in</a>
-            <a href="{{ url_for('auth.register') }}" class="btn-primary">Sign up</a>
+{% block title %}Learn Languages Online for Free{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block main_class %}index-page{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Learn Languages Online for Free</h1>
+            <p>Grow your confidence and speak languages with free courses in the LinguaTrack Community.</p>
+            <a href="{{ url_for('auth.register') }}" class="btn-green">Get started for free</a>
         </div>
-    </div>
-</nav>
+    </section>
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-left">
-      <h1>Learn Language online for free</h1>
-      <p>Grow your confidence and speak language with free courses in the LinguaTrack Community.</p>
-      <a href="{{ url_for('auth.register') }}" class="btn-green">Get started for free</a>
-    </div>
-
-</section>
-
-<!-- Language Options -->
-<section class="language-options">
-    <div class="language-container">
-        <h2>I want to learn...</h2>
-        <div class="languages">
-            <div class="language">
-              <a href="/courses.html" class="language-link">
-                <img src="static/images/flag-en.svg" alt="English">
-                <button class="language-btn">English</button>
-              </a>
-            </div>
-            <div class="language">
-              <a href="/courses.html" class="language-link">
-                <img src="static/images/flag-fr.svg" alt="French">
-                <button class="language-btn">French</button>
-              </a>
-            </div>
-            <div class="language">
-              <a href="/courses.html" class="language-link">
-                <img src="static/images/flag-es.svg" alt="Spanish">
-                <button class="language-btn">Spanish</button>
-              </a>
-            </div>
-            <div class="language">
-              <a href="/courses.html" class="language-link">
-                <img src="static/images/flag-jp.svg" alt="Japanese">
-                <button class="language-btn">Japanese</button>
-              </a>
-            </div>
-            <div class="language">
-              <a href="/courses.html" class="language-link">
-                <img src="static/images/flag-cn.svg" alt="Chinese">
-                <button class="language-btn">Chinese</button>
-              </a>
-            </div>
-          </div>
-    </div>
-</section>
-
-<!-- Learning Goals Section -->
-<section class="learning-goals">
-    <div class="goals-container">
-        <h2>Learn languages: 3 Best Ways to Start</h2>
-        <div class="goals">
-            <div class="goal">
-                <a href="/courses.html" class="goal-link goal-travel">
-                    <img src="/static/images/travel.png" alt="Travel"/>
-                    <h3>For Travel</h3>
-                    <p>Planning a trip to a Language-speaking country? Learn essential phrases for travel and cultural immersion.</p>
-                </a>
-            </div>
-            <div class="goal">
-                <a href="/courses.html" class="goal-link goal-academic">
-                    <img src="/static/images/academic.jpg" alt="Academic"/>
-                    <h3>For Academic</h3>
-                    <p>Enhance your studies with our academic Language courses, perfect for research and literature.</p>
-                </a>
-            </div>
-            <div class="goal">
-                <a href="/courses.html" class="goal-link goal-business">
-                    <img src="/static/images/business.jpg" alt="Business"/>
-                    <h3>For Business</h3>
-                    <p>Boost your career by mastering business Language for meetings, presentations, and networking.</p>
-                </a>
-            </div>
-        </div>
-        <a href="{{ url_for('main.courses') }}" class="btn-primary big">Get started with courses</a>
-    </div>
-</section>
-
-<!-- Why Choose Section -->
-<section class="why-choose">
-    <div class="why-container">
-        <h2>Why choose LinguaTrack to learn online?</h2>
-        <div class="why-content">
-            <div class="why-left">
-                <div class="why-item active" data-target="upload">
-                    <h3>Upload your study</h3>
-                    <p>Upload your study materials and practice with personalized exercises tailored to your needs.</p>
+    <!-- Language Options -->
+    <section class="language-options">
+        <div class="language-container">
+            <h2>I want to learn...</h2>
+            <div class="languages">
+                <div class="language">
+                    <a href="{{ url_for('main.courses') }}" class="language-link">
+                        <img src="{{ url_for('static', filename='images/flag-en.svg') }}" alt="English">
+                        <button class="language-btn">English</button>
+                    </a>
                 </div>
-                <div class="why-item" data-target="progress">
-                    <h3>Make clear progress</h3>
-                    <p>Track your progress with daily check-ins and streaks to stay motivated on your learning journey.</p>
+                <div class="language">
+                    <a href="{{ url_for('main.courses') }}" class="language-link">
+                        <img src="{{ url_for('static', filename='images/flag-fr.svg') }}" alt="French">
+                        <button class="language-btn">French</button>
+                    </a>
                 </div>
-                <div class="why-item" data-target="confidence">
-                    <h3>Grow your confidence</h3>
-                    <p>Earn achievements and get rated (e.g., B1/B2) to boost your confidence in speaking.</p>
+                <div class="language">
+                    <a href="{{ url_for('main.courses') }}" class="language-link">
+                        <img src="{{ url_for('static', filename='images/flag-es.svg') }}" alt="Spanish">
+                        <button class="language-btn">Spanish</button>
+                    </a>
+                </div>
+                <div class="language">
+                    <a href="{{ url_for('main.courses') }}" class="language-link">
+                        <img src="{{ url_for('static', filename='images/flag-jp.svg') }}" alt="Japanese">
+                        <button class="language-btn">Japanese</button>
+                    </a>
+                </div>
+                <div class="language">
+                    <a href="{{ url_for('main.courses') }}" class="language-link">
+                        <img src="{{ url_for('static', filename='images/flag-cn.svg') }}" alt="Chinese">
+                        <button class="language-btn">Chinese</button>
+                    </a>
                 </div>
             </div>
-            <div class="why-right">
-                <img src="/static/images/upload-study.jpg" alt="Upload Study" class="why-image active" id="upload-img"/>
-                <img src="/static/images/progress.jpg" alt="Progress" class="why-image" id="progress-img"/>
-                <img src="/static/images/confidence.jpg" alt="Confidence" class="why-image" id="confidence-img"/>
+        </div>
+    </section>
+
+    <!-- Learning Goals Section -->
+    <section class="learning-goals">
+        <div class="goals-container">
+            <h2>Learn languages: 3 Best Ways to Start</h2>
+            <div class="goals">
+                <div class="goal">
+                    <a href="{{ url_for('main.courses') }}" class="goal-link goal-travel">
+                        <img src="{{ url_for('static', filename='images/travel.png') }}" alt="Travel"/>
+                        <h3>For Travel</h3>
+                        <p>Planning a trip to a Language-speaking country? Learn essential phrases for travel and cultural immersion.</p>
+                    </a>
+                </div>
+                <div class="goal">
+                    <a href="{{ url_for('main.courses') }}" class="goal-link goal-academic">
+                        <img src="{{ url_for('static', filename='images/academic.jpg') }}" alt="Academic"/>
+                        <h3>For Academic</h3>
+                        <p>Enhance your studies with our academic Language courses, perfect for research and literature.</p>
+                    </a>
+                </div>
+                <div class="goal">
+                    <a href="{{ url_for('main.courses') }}" class="goal-link goal-business">
+                        <img src="{{ url_for('static', filename='images/business.jpg') }}" alt="Business"/>
+                        <h3>For Business</h3>
+                        <p>Boost your career by mastering business Language for meetings, presentations, and networking.</p>
+                    </a>
+                </div>
             </div>
+            <a href="{{ url_for('main.courses') }}" class="btn-primary big">Get started with courses</a>
         </div>
-        <a href="{{ url_for('auth.register') }}" class="btn-primary big">Get started for free</a>
-    </div>
-</section>
+    </section>
 
-<!-- Footer Section -->
-<section class="footer">
-    <div class="footer-container">
-        <div class="footer-left">
-            <h2>Learn anytime, on your desktop and on your phone</h2>
-            <p>Start learning on your desktop. Pick it up later on your phone. You can even download lessons and learn offline.</p>
-            <div class="store-buttons">
-                <a href="#"><img src="/static/images/app-store.svg" alt="App Store"/></a>
-                <a href="#"><img src="/static/images/google-play.png" alt="Google Play"/></a>
+    <!-- Why Choose Section -->
+    <section class="why-choose">
+        <div class="why-container">
+            <h2>Why choose LinguaTrack to learn online?</h2>
+            <div class="why-content">
+                <div class="why-left">
+                    <div class="why-item active" data-target="upload">
+                        <h3>Upload your study</h3>
+                        <p>Upload your study materials and practice with personalized exercises tailored to your needs.</p>
+                    </div>
+                    <div class="why-item" data-target="progress">
+                        <h3>Make clear progress</h3>
+                        <p>Track your progress with daily check-ins and streaks to stay motivated on your learning journey.</p>
+                    </div>
+                    <div class="why-item" data-target="confidence">
+                        <h3>Grow your confidence</h3>
+                        <p>Earn achievements and get rated (e.g., B1/B2) to boost your confidence in speaking.</p>
+                    </div>
+                </div>
+                <div class="why-right">
+                    <img src="{{ url_for('static', filename='images/upload-study.jpg') }}" alt="Upload Study" class="why-image active" id="upload-img"/>
+                    <img src="{{ url_for('static', filename='images/progress.jpg') }}" alt="Progress" class="why-image" id="progress-img"/>
+                    <img src="{{ url_for('static', filename='images/confidence.jpg') }}" alt="Confidence" class="why-image" id="confidence-img"/>
+                </div>
             </div>
+            <a href="{{ url_for('auth.register') }}" class="btn-primary big">Get started for free</a>
         </div>
-        <div class="footer-right">
-            <img src="/static/images/devices.png" alt="Devices"/>
-        </div>
-    </div>
-    <div class="awards">
-        <div class="award">
-            <p>2025 LinguaTrack</p>
-        </div>
+    </section>
+{% endblock %}
 
-    </div>
-</section>
-
-<script src="/static/js/index.js"></script>
-</body>
-</html>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

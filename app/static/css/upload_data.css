@@ -1,66 +1,115 @@
 /* upload_data.css */
 
+/* The main element from base.html gets container-fluid class through the block */
+main.container-fluid {
+    margin-top: 120px !important;
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* First row should not have extra padding */
+main.container-fluid > .row {
+    margin-top: 0;
+    padding-top: 0;
+}
+
 /* Sidebar styles */
 .sidebar {
-    min-height: calc(100vh - 56px);
-    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - var(--navbar-height));
+    background-color: var(--bg-light);
+    border-right: 1px solid var(--border-light);
+    overflow-y: auto;
+    z-index: 900;
+}
+
+/* Remove left margin from main content - Bootstrap grid handles this */
+.col-md-9,
+.col-lg-10 {
+    margin-left: 0;
+    padding-top: 0 !important;
+}
+
+/* Mobile responsive: Make sidebar relative */
+@media (max-width: 767px) {
+    .sidebar {
+        position: relative;
+        top: 0;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    main > .container-fluid {
+        padding-top: 0;
+    }
 }
 
 .nav-link-sidebar {
-    color: #212529;
+    color: var(--text-dark);
     border-radius: 0.25rem;
     margin-bottom: 0.25rem;
     text-decoration: none;
     display: block;
     padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
 }
 
 .nav-link-sidebar:hover {
     background-color: #e9ecef;
-    color: #212529;
+    color: var(--text-dark);
 }
 
 .nav-link-sidebar.active {
-    background-color: #0d6efd;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.nav-link-sidebar.active:hover {
+    background-color: var(--primary-hover);
 }
 
 /* Upload card styles */
 .upload-card {
     border: none;
     border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    box-shadow: 0 0.25rem 0.5rem var(--shadow-light);
+    transition: transform var(--transition-speed) ease;
+    background-color: var(--white);
 }
 
 .upload-card:hover {
     transform: translateY(-0.25rem);
+    box-shadow: 0 0.5rem 1rem var(--shadow-medium);
 }
 
 .upload-icon {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #0d6efd;
+    color: var(--primary-color);
 }
 
 /* Drop zone styles */
 .drop-zone {
-    border: 2px dashed #dee2e6;
+    border: 2px dashed var(--border-light);
     border-radius: 0.5rem;
     padding: 2rem;
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    background-color: var(--bg-light);
 }
 
 .drop-zone:hover {
-    background-color: #f8f9fa;
+    background-color: var(--bg-lighter);
+    border-color: #b0e0e6;
 }
 
 .drop-zone.dragover {
     background-color: #e3f2fd;
-    border-color: #2196f3;
+    border-color: var(--primary-color);
 }
 
 /* Form styles */
@@ -69,10 +118,15 @@
     color: #495057;
 }
 
+.form-control,
+.form-select {
+    transition: border-color var(--transition-speed) ease;
+}
+
 .form-control:focus,
 .form-select:focus {
     border-color: #86b7fe;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(26, 115, 232, 0.25);
 }
 
 /* Range input styles */
@@ -80,11 +134,12 @@
     -webkit-appearance: none;
     width: 100%;
     height: 0.5rem;
-    background: #dee2e6;
+    background: var(--border-light);
     outline: none;
     opacity: 0.7;
-    -webkit-transition: 0.2s;
-    transition: opacity 0.2s;
+    -webkit-transition: opacity var(--transition-speed);
+    transition: opacity var(--transition-speed);
+    border-radius: 0.25rem;
 }
 
 .range-field:hover {
@@ -96,35 +151,45 @@
     appearance: none;
     width: 1.25rem;
     height: 1.25rem;
-    background: #0d6efd;
+    background: var(--primary-color);
     cursor: pointer;
     border-radius: 50%;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.range-field::-webkit-slider-thumb:hover {
+    background-color: var(--primary-hover);
 }
 
 .range-field::-moz-range-thumb {
     width: 1.25rem;
     height: 1.25rem;
-    background: #0d6efd;
+    background: var(--primary-color);
     cursor: pointer;
     border-radius: 50%;
     border: none;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.range-field::-moz-range-thumb:hover {
+    background-color: var(--primary-hover);
 }
 
 /* Card header styles */
 .card-header {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--bg-light);
+    border-bottom: 1px solid var(--border-light);
 }
 
 /* Recent uploads list */
 .list-group-item {
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-light);
     margin-bottom: 0.25rem;
-    transition: all 0.2s ease;
+    transition: all var(--transition-speed) ease;
 }
 
 .list-group-item:hover {
-    background-color: #f8f9fa;
+    background-color: var(--bg-light);
 }
 
 /* Badge styles */
@@ -137,30 +202,49 @@
     font-size: 0.875rem;
 }
 
-/* Button styles */
-.btn {
-    transition: all 0.2s ease;
+/* Button styles override */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all var(--transition-speed) ease;
 }
 
-.btn:hover {
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.btn-outline-secondary {
+    color: var(--text-muted);
+    border-color: var(--border-light);
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-outline-secondary:hover {
+    color: var(--white);
+    background-color: #6c757d;
+    border-color: #6c757d;
     transform: translateY(-1px);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .sidebar {
-        min-height: auto;
-        margin-bottom: 2rem;
-    }
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all var(--transition-speed) ease;
+}
 
-    .upload-card {
-        margin-bottom: 1rem;
-    }
+.btn-outline-primary:hover {
+    color: var(--white);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
 }
 
 /* File info display */
 #fileInfo {
-    color: #6c757d;
+    color: var(--text-muted);
     font-size: 0.875rem;
 }
 
@@ -174,8 +258,8 @@
 }
 
 .form-check-input:checked {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 /* Skills grid */
@@ -199,4 +283,40 @@
     .main-content {
         padding: 1rem;
     }
+
+    .sidebar {
+        padding: 1rem;
+    }
+
+    .drop-zone {
+        padding: 1rem;
+    }
+}
+
+/* Mobile adjustments for upload cards */
+@media (max-width: 768px) {
+    .upload-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Ensure proper spacing in the main container */
+body {
+    padding-top: 0;
+}
+
+/* Override Bootstrap's default container-fluid padding */
+.container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* Fix for the specific page structure */
+body > main {
+    margin-top: var(--navbar-height) !important; /* Force the margin from base.html */
+}
+
+/* Remove any additional margins/paddings that might cause overlap */
+body > main > * {
+    margin-top: 0;
 }

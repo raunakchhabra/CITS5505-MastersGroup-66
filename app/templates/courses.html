@@ -1,115 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Courses – LinguaTrack</title>
-    <link rel="stylesheet" href="/static/css/courses.css" />
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar-container">
-            <div class="nav-left">
-                <div class="hamburger-menu">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <a href="{{ url_for('main.index') }}" class="logo">LinguaTrack</a>
-                <div class="dropdown-menu left-dropdown">
-                    <ul class="dropdown-list">
-                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                        <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
-                        <li><a href="{{ url_for('main.exercises') }}">Exercises</a></li>
-                        <li><a href="{{ url_for('main.community') }}">Community</a></li>
-                        <li><a href="{{ url_for('main.about') }}">About</a></li>
-                    </ul>
+{% extends "base.html" %}
+
+{% block title %}Courses{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/courses.css') }}">
+{% endblock %}
+
+{% block main_class %}courses-main{% endblock %}
+
+{% block content %}
+    <section class="filter-section">
+        <h2>Choose Your Course</h2>
+        <div class="filter-options">
+            <div class="language-filter">
+                <label for="language">Choose Language:</label>
+                <div class="select-wrapper">
+                    <select id="language">
+                        <option value="">All Languages</option>
+                        <option value="english">English</option>
+                        <option value="french">French</option>
+                        <option value="spanish">Spanish</option>
+                        <option value="japanese">Japanese</option>
+                        <option value="chinese">Chinese</option>
+                    </select>
+                    <button class="clear-filter" data-filter="language">Clear</button>
                 </div>
             </div>
-            <div class="nav-right">
-                <div class="data-menu">
-                    <span class="data-text">Data</span>
-                    <div class="dropdown-menu data-dropdown">
-                        <ul class="dropdown-list">
-                            <!--<li><a href="{{ url_for('main.progress_report') }}">Progress Track</a></li> -->
-                            <li><a href="{{ url_for('data_bp.upload') }}">Upload Data</a></li>
-                            <li><a href="{{ url_for('data_bp.my_data') }}">My Data</a></li>
-                            <li><a href="{{ url_for('main.visualize_data') }}">Visualize Data</a></li>
-                            <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
-                        </ul>
-                    </div>
+
+            <div class="purpose-filter">
+                <label for="purpose">Purpose:</label>
+                <div class="select-wrapper">
+                    <select id="purpose">
+                        <option value="">All Purposes</option>
+                        <option value="travel">Travel</option>
+                        <option value="business">Business</option>
+                        <option value="academic">Academic</option>
+                    </select>
+                    <button class="clear-filter" data-filter="purpose">Clear</button>
                 </div>
-                <div class="user-profile">
-                    <span class="username">User</span>
-                    <div class="dropdown-menu right-dropdown">
-                        <ul class="dropdown-list">
-                            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                            <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
-                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
+            </div>
+
+            <div class="level-filter">
+                <label for="level">Level:</label>
+                <div class="select-wrapper">
+                    <select id="level">
+                        <option value="">All Levels</option>
+                        <option value="a1">A1</option>
+                        <option value="a2">A2</option>
+                        <option value="b1">B1</option>
+                        <option value="b2">B2</option>
+                        <option value="c1">C1</option>
+                        <option value="c2">C2</option>
+                    </select>
+                    <button class="clear-filter" data-filter="level">Clear</button>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <main class="courses-main">
-        <section class="filter-section">
-            <h2>Choose Your Course</h2>
-            <div class="filter-options">
-                <div class="language-filter">
-                    <label for="language">Choose Language:</label>
-                    <div class="select-wrapper">
-                        <select id="language">
-                            <option value="">All Languages</option>
-                            <option value="english">English</option>
-                            <option value="french">French</option>
-                            <option value="spanish">Spanish</option>
-                            <option value="japanese">Japanese</option>
-                            <option value="chinese">Chinese</option>
-                        </select>
-                        <button class="clear-filter" data-filter="language">Clear</button>
-                    </div>
-                </div>
+    <section class="course-list">
+        <!-- Course cards will be dynamically loaded here -->
+    </section>
+{% endblock %}
 
-                <div class="purpose-filter">
-                    <label for="purpose">Purpose:</label>
-                    <div class="select-wrapper">
-                        <select id="purpose">
-                            <option value="">All Purposes</option>
-                            <option value="travel">Travel</option>
-                            <option value="business">Business</option>
-                            <option value="academic">Academic</option>
-                        </select>
-                        <button class="clear-filter" data-filter="purpose">Clear</button>
-                    </div>
-                </div>
-
-                <div class="level-filter">
-                    <label for="level">Level:</label>
-                    <div class="select-wrapper">
-                        <select id="level">
-                            <option value="">All Levels</option>
-                            <option value="a1">A1</option>
-                            <option value="a2">A2</option>
-                            <option value="b1">B1</button>
-                            <option value="b2">B2</option>
-                            <option value="c1">C1</option>
-                            <option value="c2">C2</option>
-                        </select>
-                        <button class="clear-filter" data-filter="level">Clear</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="course-list">
-            </section>
-    </main>
-
-    <footer>
-        <p>© 2025 LinguaTrack</p>
-    </footer>
-    <script src="/static/js/courses.js"></script>
-</body>
-</html>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/courses.js') }}"></script>
+{% endblock %}

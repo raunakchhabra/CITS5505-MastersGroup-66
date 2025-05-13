@@ -1,17 +1,11 @@
+// Course filtering and display logic
 document.addEventListener('DOMContentLoaded', () => {
-
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const leftDropdown = document.querySelector('.left-dropdown');
-    const userProfile = document.querySelector('.user-profile');
-    const rightDropdown = document.querySelector('.right-dropdown');
-    const dataMenu = document.querySelector('.data-menu'); // Get the new data menu container
-    const dataDropdown = document.querySelector('.data-dropdown'); // Get the new data dropdown
+    // Course filtering elements
     const languageSelect = document.getElementById('language');
     const purposeSelect = document.getElementById('purpose');
     const levelSelect = document.getElementById('level');
     const clearFilters = document.querySelectorAll('.clear-filter');
     const courseListSection = document.querySelector('.course-list');
-    const navLeft = document.querySelector('.nav-left');
 
     // Sample course data (replace with your actual data fetching)
     const allCourses = [
@@ -27,17 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
         { language: 'chinese', purpose: 'travel', level: 'a1', title: 'Basic Chinese for Travel', description: 'First steps in Chinese for travelers.', duration: '4 weeks' },
         { language: 'french', purpose: 'business', level: 'b1', title: 'Business French Fluency', description: 'Achieve fluency in French for business.', duration: '9 weeks' },
         { language: 'english', purpose: 'academic', level: 'c2', title: 'Advanced English (Academic Writing)', description: 'Refine your English academic writing skills.', duration: '11 weeks' },
-        // Add more courses here
     ];
 
     let filteredCourses = [...allCourses]; // Start with all courses
 
     function renderCourses(courses) {
+        if (!courseListSection) return;
+
         courseListSection.innerHTML = '';
+
         if (courses.length === 0) {
-            courseListSection.innerHTML = '<p>No courses found matching your criteria.</p>';
+            courseListSection.innerHTML = '<p class="no-courses">No courses found matching your criteria.</p>';
             return;
         }
+
         courses.forEach(course => {
             const courseCard = document.createElement('div');
             courseCard.classList.add('course-card');
@@ -56,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterCourses() {
-        const selectedLanguage = languageSelect.value;
-        const selectedPurpose = purposeSelect.value;
-        const selectedLevel = levelSelect.value;
+        const selectedLanguage = languageSelect?.value || '';
+        const selectedPurpose = purposeSelect?.value || '';
+        const selectedLevel = levelSelect?.value || '';
 
         filteredCourses = allCourses.filter(course => {
             const languageMatch = !selectedLanguage || course.language === selectedLanguage;
@@ -70,66 +67,50 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCourses(filteredCourses);
     }
 
-    // Event listeners for navigation dropdowns
-    if (hamburgerMenu && navLeft && leftDropdown) {
-        hamburgerMenu.addEventListener('click', () => {
-            navLeft.classList.toggle('open');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!navLeft.contains(event.target) && !leftDropdown.contains(event.target)) {
-                navLeft.classList.remove('open');
-            }
-        });
-    }
-    // Event listener for the Data dropdown
-    if (dataMenu && dataDropdown) {
-        dataMenu.addEventListener('click', (event) => {
-            dataDropdown.classList.toggle('open');
-            event.stopPropagation(); // Prevent closing immediately if clicking inside
-        });
-
-        document.addEventListener('click', (event) => {
-            if (dataDropdown.classList.contains('open') && !dataMenu.contains(event.target)) {
-                dataDropdown.classList.remove('open');
-            }
-        });
-    }
-
-    // Event listener for the user profile dropdown
-    if (userProfile && rightDropdown) {
-        userProfile.addEventListener('click', (event) => {
-            rightDropdown.classList.toggle('open');
-            event.stopPropagation(); // Prevent closing immediately if clicking inside
-        });
-
-        document.addEventListener('click', (event) => {
-            if (rightDropdown.classList.contains('open') && !userProfile.contains(event.target)) {
-                rightDropdown.classList.remove('open');
-            }
-        });
-    }
-
-
     // Event listeners for course filtering
-    languageSelect.addEventListener('change', filterCourses);
-    purposeSelect.addEventListener('change', filterCourses);
-    levelSelect.addEventListener('change', filterCourses);
+    if (languageSelect) {
+        languageSelect.addEventListener('change', filterCourses);
+    }
 
+    if (purposeSelect) {
+        purposeSelect.addEventListener('change', filterCourses);
+    }
+
+    if (levelSelect) {
+        levelSelect.addEventListener('change', filterCourses);
+    }
+
+    // Clear filter buttons
     clearFilters.forEach(button => {
         button.addEventListener('click', function() {
             const filterType = this.dataset.filter;
-            if (filterType === 'language') {
+
+            if (filterType === 'language' && languageSelect) {
                 languageSelect.value = '';
-            } else if (filterType === 'purpose') {
+            } else if (filterType === 'purpose' && purposeSelect) {
                 purposeSelect.value = '';
-            } else if (filterType === 'level') {
+            } else if (filterType === 'level' && levelSelect) {
                 levelSelect.value = '';
             }
+
             filterCourses();
         });
     });
 
     // Initial rendering of courses
     renderCourses(filteredCourses);
+
+    // Add event listeners for join buttons (event delegation)
+    courseListSection?.addEventListener('click', (e) => {
+        if (e.target.classList.contains('join-button')) {
+            const courseCard = e.target.closest('.course-card');
+            const courseTitle = courseCard.querySelector('h3').textContent;
+
+            // Here you can add logic to handle course enrollment
+            console.log(`Joining course: ${courseTitle}`);
+
+            // Example: Redirect to course enrollment page
+            // window.location.href = `/courses/enroll?course=${encodeURIComponent(courseTitle)}`;
+        }
+    });
 });
