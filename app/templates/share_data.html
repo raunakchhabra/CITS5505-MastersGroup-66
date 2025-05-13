@@ -20,7 +20,7 @@
                     <ul class="dropdown-list">
                         <li><a href="{{ url_for('main.index') }}">Home</a></li>
                         <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
-                        <li><a href="{{ url_for('main.exercises') }}">Exercises</a></li>
+                        <li><a href="{{ url_for('exercise_bp.exercises') }}">Exercises</a></li>
                         <li><a href="{{ url_for('main.community') }}">Community</a></li>
                         <li><a href="{{ url_for('main.about') }}">About</a></li>
                     </ul>
@@ -32,7 +32,7 @@
                     <div class="dropdown-menu data-dropdown">
                         <ul class="dropdown-list">
                             <li><a href="{{ url_for('main.upload_data') }}">Upload Data</a></li>
-                            <li><a href="{{ url_for('main.visualize_data') }}">Visualize Data</a></li>
+                            <li><a href="{{ url_for('main.view_data') }}">Visualize Data</a></li>
                             <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
                         </ul>
                     </div>

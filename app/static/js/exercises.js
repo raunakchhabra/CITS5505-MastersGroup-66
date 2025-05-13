@@ -26,7 +26,7 @@ function loadQuestion() {
             btn.onclick = () => {
                 document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
-                btn.dataset.selected = i;
+                btn.dataset.selected = opt;  // store the selected answer
             };
             optionsDiv.appendChild(btn);
         });
@@ -37,23 +37,51 @@ function submitAnswer() {
     const selected = document.querySelector('.option-btn.selected');
     if (!selected) return alert('Please select an option.');
 
-    const selectedIndex = parseInt(selected.dataset.selected);
-    if (selectedIndex === questions[currentQuestion].correct) {
-        correctAnswers++;
-    }
+    const userAnswer = selected.dataset.selected;
+    const correctAnswer = questions[currentQuestion].options[questions[currentQuestion].correct];
+    const isCorrect = userAnswer === correctAnswer;
 
-    currentQuestion++;
+    // submit the answer to the server
+    fetch('/exercise/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            question: questions[currentQuestion].text,
+            user_answer: userAnswer,
+            correct_answer: correctAnswer,
+            is_correct: isCorrect
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.is_correct) {
+            correctAnswers++;
+        }
 
-    if (currentQuestion < questions.length) {
-        loadQuestion();
-    } else {
-        document.getElementById('question-text').innerText = 'Exercise Completed!';
-        document.getElementById('options').innerHTML = '';
-        document.querySelector('.submit-btn').style.display = 'none';
-        document.getElementById('question-counter').innerText = 'Done';
-        document.getElementById('progress').style.width = '100%';
-        document.getElementById('result').innerText = `You answered ${correctAnswers} out of ${questions.length} correctly. Your score: ${Math.round((correctAnswers / questions.length) * 100)}%`;
-    }
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            document.getElementById('question-text').innerText = 'Exercise Completed!';
+            document.getElementById('options').innerHTML = '';
+            document.querySelector('.submit-btn').style.display = 'none';
+            document.getElementById('question-counter').innerText = 'Done';
+            document.getElementById('progress').style.width = '100%';
+            document.getElementById('result').innerText = `You answered ${correctAnswers} out of ${questions.length} correctly. Your score: ${Math.round((correctAnswers / questions.length) * 100)}%`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting answer. Please try again.');
+    });
 }
 
 window.onload = loadQuestion;
