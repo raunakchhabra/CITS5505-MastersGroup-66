@@ -137,6 +137,7 @@ class Exercise(db.Model):
     question: Mapped[str] = mapped_column(Text)
     answer: Mapped[str] = mapped_column(Text)
     type: Mapped[str] = mapped_column(Text)
+    options: Mapped[str] = mapped_column(Text, nullable=True)
 
     course: Mapped["Course"] = relationship("Course", back_populates="exercises")
     submissions: Mapped[list["Exercisesubmission"]] = relationship("Exercisesubmission", back_populates="exercise")

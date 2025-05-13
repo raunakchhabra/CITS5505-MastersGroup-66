@@ -1,6 +1,9 @@
 #main.py
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
+from app.models import db, Exercise, Exercisesubmission, Progress, Studylog
+from app.extensions import db
+from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
 
@@ -22,9 +25,6 @@ def community():
 def courses():
     return render_template('courses.html', title='Courses')
 
-@main_bp.route('/exercises')
-def exercises():
-    return render_template('exercises.html', title='Exercises')
 
 @main_bp.route('/forgot-password')
 def forgot_password():
@@ -64,4 +64,3 @@ def share_data():
 @main_bp.route('/visualize_data')
 def visualize_data():
     return render_template('visualize_data.html', title='Visualize Data')
-

@@ -52,7 +52,7 @@
         <div class="logo">LinguaTrack</div>
         <nav>
             <a class="nav-btn" href="{{ url_for('main.courses') }}">Courses</a>
-            <a class="nav-btn" href="{{ url_for('main.exercises') }}">Exercises</a>
+            <a class="nav-btn" href="{{ url_for('exercise_bp.exercises') }}">Exercises</a>
             <a class="nav-btn profile-btn" href="{{ url_for('main.profile') }}">Profile</a>
         </nav>
     </header>
@@ -79,8 +79,8 @@
                     </p>
                 </div>
                 <div class="stat-item">
-                    <h3>Courses Completed</h3>
-                    <p>{{ user.enrollments|length }}</p> <!-- Add logic for completed courses if needed -->
+                    <h3>Exercises Completed</h3>
+                    <p>{{ user.exercise_submissions|length }}</p> <!-- Add logic for completed courses if needed -->
                 </div>
             </div>
         </section>
