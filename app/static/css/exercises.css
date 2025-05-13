@@ -127,6 +127,16 @@ h1 {
     transform: translateY(-2px);
 }
 
+.option-btn.selected {
+    background-color: #e3f2fd;       /* light blue background */
+    color: #0d47a1;                  /* deep blue text */
+    border: 2px solid #64b5f6;       /* highlight border */
+    transform: scale(1.02);          /* slight zoom effect */
+    box-shadow: 0 0 8px rgba(100, 181, 246, 0.4);  /* soft glow */
+}
+
+
+
 .exercise-tools {
     display: flex;
     justify-content: center;
@@ -164,7 +174,9 @@ h1 {
 
 .navigation {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* align submit button to bottom right */
+    margin-top: -10px;         /* move closer to options */
+    margin-bottom: 0;
 }
 
 .action-btn {
@@ -189,6 +201,7 @@ h1 {
 .submit-btn {
     background: #34c759;
     color: #fff;
+    margin-right: 5px;  /* optional tweak */
 }
 
 .submit-btn:hover {
