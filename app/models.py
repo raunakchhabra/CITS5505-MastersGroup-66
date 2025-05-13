@@ -11,6 +11,7 @@ from sqlalchemy import Enum as SAEnum, JSON, String
 class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(Text, nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
     email: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     password_hash: Mapped[str] = mapped_column(Text, nullable=False)
 
