@@ -1,6 +1,6 @@
 #main.py
 from flask import Blueprint, render_template, redirect, url_for
-from flask_login import current_user
+from flask_login import login_required, current_user
 
 main_bp = Blueprint('main', __name__)
 
@@ -31,9 +31,20 @@ def forgot_password():
     return render_template('forgot-password.html', title='Forgot Password')
 
 @main_bp.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html', title='Profile')
-
+    # calculate the total learning time in hours
+    total_learning_time = sum(log.duration_minutes for log in current_user.studylogs) // 60 if current_user.studylogs else 0
+    
+    # languages the user is learning
+    languages = ', '.join(lang.language for lang in current_user.user_languages) if current_user.user_languages else 'None'
+    
+    return render_template(
+        'profile.html',
+        user=current_user,
+        total_learning_time=total_learning_time,
+        languages=languages
+    )
 @main_bp.route('/progress-report')
 def progress_report():
     return render_template('progress-report.html', title='Progress Report')

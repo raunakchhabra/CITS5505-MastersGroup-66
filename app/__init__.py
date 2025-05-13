@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import login_required, current_user
 from config import Config
 from app.extensions import db, migrate, login_manager
 from app.models import Data, SharedData, DataType, SharedPermission

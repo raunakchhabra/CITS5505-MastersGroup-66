@@ -1,11 +1,11 @@
 <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+        return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
         if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
             try {
                 var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
@@ -19,11 +19,11 @@
 
                 // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
                 var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
                 );
                 // Fallback
                 if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
+                    headerRowIndex = 0;
                 }
 
                 // Convert filtered JSON back to CSV
@@ -36,8 +36,9 @@
             }
         }
         return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+    }
+</script>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,6 +46,7 @@
     <title>Profile - LinguaTrack</title>
     <link rel="stylesheet" href="/static/css/profile.css">
 </head>
+
 <body>
     <header>
         <div class="logo">LinguaTrack</div>
@@ -58,9 +60,9 @@
         <h1>Your Profile</h1>
         <section class="profile-overview">
             <div class="profile-card">
-                <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
-                <h2>John Doe</h2>
-                <p>Member since April 2025</p>
+                <!--<img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic"> -->
+                <h2>{{ user.name }}</h2>
+                <p>Member since {{ user.enrollments[0].enrolled_at.strftime('%B %Y') if user.enrollments else 'N/A' }}</p>
                 <button class="action-btn edit-btn">Edit Profile</button>
             </div>
         </section>
@@ -69,24 +71,27 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <h3>Total Learning Time</h3>
-                    <p>120 Hours</p>
+                    <p>{{ total_learning_time }} Hours</p> <!-- Add logic to calculate total learning time -->
                 </div>
                 <div class="stat-item">
                     <h3>Languages Learned</h3>
-                    <p>3 (Spanish, French, German)</p>
+                    <p>{{ user.user_languages|length }} ({{ languages }})</p>
+                    </p>
                 </div>
                 <div class="stat-item">
                     <h3>Courses Completed</h3>
-                    <p>5</p>
+                    <p>{{ user.enrollments|length }}</p> <!-- Add logic for completed courses if needed -->
                 </div>
             </div>
         </section>
         <section class="achievements">
             <h2>Achievements</h2>
             <div class="achievement-list">
-                <div class="achievement-item">🏆 7-Day Streak Master</div>
-                <div class="achievement-item">🌟 1000 XP Milestone</div>
-                <div class="achievement-item">📚 Spanish Beginner Completed</div>
+                {% for achievement in user.user_achievements %}
+                <div class="achievement-item">{{ achievement.achievement.icon }} {{ achievement.achievement.name }}</div>
+                {% else %}
+                <div class="achievement-item">No achievements yet.</div>
+                {% endfor %}
             </div>
             <button class="action-btn view-btn">View All Achievements</button>
         </section>
