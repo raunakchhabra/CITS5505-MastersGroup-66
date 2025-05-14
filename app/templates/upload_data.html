@@ -3,370 +3,377 @@
 {% set title = "Upload Data" %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/upload_data.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload_data.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid px-0">
-    <div class="row g-0">
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 sidebar p-3">
-            <h5 class="mb-3">Upload Options</h5>
-            <nav class="nav flex-column">
-                <a class="nav-link-sidebar {% if upload_type == 'study_session' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='study_session') }}">
-                    <span class="me-2">⏱️</span> Study Session
-                </a>
-                <a class="nav-link-sidebar {% if upload_type == 'assessment' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='assessment') }}">
-                    <span class="me-2">📝</span> Assessment Results
-                </a>
-                <a class="nav-link-sidebar {% if upload_type == 'vocabulary' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}">
-                    <span class="me-2">📚</span> Vocabulary Lists
-                </a>
-                <a class="nav-link-sidebar {% if upload_type == 'goals' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='goals') }}">
-                    <span class="me-2">🎯</span> Learning Goals
-                </a>
-                <a class="nav-link-sidebar {% if upload_type == 'import' %}active{% endif %}" href="{{ url_for('data_bp.upload', upload_type='import') }}">
-                    <span class="me-2">📊</span> Import from App
-                </a>
-            </nav>
-
-            <h5 class="mt-4 mb-3">Recent Uploads</h5>
-            <div class="list-group">
-                {% for upload in recent_uploads %}
-                <a href="{{ url_for('data_bp.view', id=upload.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    {{ upload.title }}
-                    <span class="badge bg-{% if upload.days_ago == 0 %}primary{% else %}secondary{% endif %} rounded-pill">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <h5 class="mb-3">Upload Options</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link-sidebar {% if upload_type == 'study_session' %}active{% endif %}"
+                       href="{{ url_for('data_bp.upload', upload_type='study_session') }}">
+                        <span class="me-2">⏱️</span> Study Session
+                    </a>
+                    <a class="nav-link-sidebar {% if upload_type == 'assessment' %}active{% endif %}"
+                       href="{{ url_for('data_bp.upload', upload_type='assessment') }}">
+                        <span class="me-2">📝</span> Assessment Results
+                    </a>
+                    <a class="nav-link-sidebar {% if upload_type == 'vocabulary' %}active{% endif %}"
+                       href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}">
+                        <span class="me-2">📚</span> Vocabulary Lists
+                    </a>
+                </nav>
+                <h5 class="mt-4 mb-3">Recent Uploads</h5>
+                {% if recent_uploads|length == 0 %}
+                    No uploads yet.
+                {% else %}
+                    <div class="list-group">
+                        {% for upload in recent_uploads %}
+                            <a href="{{ url_for('data_bp.view', id=upload.id) }}"
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                {{ upload.title }}
+                                <span class="badge bg-{% if upload.days_ago == 0 %}primary{% else %}secondary{% endif %} rounded-pill">
                         {% if upload.days_ago == 0 %}Today
                         {% elif upload.days_ago == 1 %}Yesterday
-                        {% else %}{{ upload.days_ago }} days ago
+                            {% else %}{{ upload.days_ago }} days ago
                         {% endif %}
                     </span>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="col-md-9 col-lg-10 p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">Upload Data</h2>
-                <a href="{{ url_for('data_bp.my_data') }}" class="btn btn-outline-secondary">View All Data</a>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
 
-            <!-- Upload Options Cards -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-4">
-                    <div class="card upload-card h-100">
-                        <div class="card-body text-center">
-                            <div class="upload-icon">⏱️</div>
-                            <h5 class="card-title">Log Study Session</h5>
-                            <p class="card-text">Record your study time, activities, and materials used.</p>
-                            <a href="{{ url_for('data_bp.upload', upload_type='study_session') }}" class="btn btn-primary">Start Logging</a>
-                        </div>
-                    </div>
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Upload Data</h2>
+                    <a href="{{ url_for('data_bp.my_data') }}" class="btn btn-outline-secondary">View All Data</a>
                 </div>
-                <div class="col-md-4">
-                    <div class="card upload-card h-100">
-                        <div class="card-body text-center">
-                            <div class="upload-icon">📝</div>
-                            <h5 class="card-title">Assessment Results</h5>
-                            <p class="card-text">Upload scores from tests, quizzes, or evaluations.</p>
-                            <a href="{{ url_for('data_bp.upload', upload_type='assessment') }}" class="btn btn-primary">Add Results</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card upload-card h-100">
-                        <div class="card-body text-center">
-                            <div class="upload-icon">📚</div>
-                            <h5 class="card-title">Vocabulary Lists</h5>
-                            <p class="card-text">Add new vocabulary words or import word lists.</p>
-                            <a href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}" class="btn btn-primary">Manage Vocabulary</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            {% if upload_type == 'study_session' %}
-            <!-- Study Session Form -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Log Study Session</h5>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ url_for('data_bp.upload_study_session') }}">
-                        {{ form.hidden_tag() }}
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                {{ form.date.label(class="form-label") }}
-                                {{ form.date(class="form-control") }}
-                                {% if form.date.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.date.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.duration_minutes.label(class="form-label") }}
-                                {{ form.duration_minutes(class="form-control", placeholder="e.g., 30") }}
-                                {% if form.duration_minutes.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.duration_minutes.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
+                <!-- Upload Options Cards -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card upload-card h-100">
+                            <div class="card-body text-center">
+                                <div class="upload-icon">⏱️</div>
+                                <h5 class="card-title">Log Study Session</h5>
+                                <p class="card-text">Record your study time, activities, and materials used.</p>
+                                <a href="{{ url_for('data_bp.upload', upload_type='study_session') }}"
+                                   class="btn btn-primary">Start Logging</a>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card upload-card h-100">
+                            <div class="card-body text-center">
+                                <div class="upload-icon">📝</div>
+                                <h5 class="card-title">Assessment Results</h5>
+                                <p class="card-text">Upload scores from tests, quizzes, or evaluations.</p>
+                                <a href="{{ url_for('data_bp.upload', upload_type='assessment') }}"
+                                   class="btn btn-primary">Add Results</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card upload-card h-100">
+                            <div class="card-body text-center">
+                                <div class="upload-icon">📚</div>
+                                <h5 class="card-title">Vocabulary Lists</h5>
+                                <p class="card-text">Add new vocabulary words or import word lists.</p>
+                                <a href="{{ url_for('data_bp.upload', upload_type='vocabulary') }}"
+                                   class="btn btn-primary">Manage Vocabulary</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Skills Practiced</label>
-                            <div class="row g-2">
-                                {% for skill_field in form.skills %}
-                                    <div class="col-md-3">
-                                        <div class="form-check">
-                                            {{ skill_field(class="form-check-input") }}
-                                            {{ skill_field.label(class="form-check-label") }}
+                {% if upload_type == 'study_session' %}
+                    <!-- Study Session Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Log Study Session</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('data_bp.upload_study_session') }}">
+                                {{ form.hidden_tag() }}
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        {{ form.date.label(class="form-label") }}
+                                        {{ form.date(class="form-control") }}
+                                        {% if form.date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.duration_minutes.label(class="form-label") }}
+                                        {{ form.duration_minutes(class="form-control", placeholder="e.g., 30") }}
+                                        {% if form.duration_minutes.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.duration_minutes.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Skills Practiced</label>
+                                    <div class="row g-2">
+                                        {% for skill_field in form.skills %}
+                                            <div class="col-md-3">
+                                                <div class="form-check">
+                                                    {{ skill_field(class="form-check-input") }}
+                                                    {{ skill_field.label(class="form-check-label") }}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.activity_type.label(class="form-label") }}
+                                    {{ form.activity_type(class="form-select") }}
+                                    {% if form.activity_type.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.activity_type.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
                                         </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                                    {% endif %}
+                                </div>
 
-                        <div class="mb-3">
-                            {{ form.activity_type.label(class="form-label") }}
-                            {{ form.activity_type(class="form-select") }}
-                            {% if form.activity_type.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.activity_type.errors %}
+                                <div class="mb-3">
+                                    {{ form.notes.label(class="form-label") }}
+                                    {{ form.notes(class="form-control", rows=3, placeholder="What did you learn? What was challenging?") }}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.rating.label(class="form-label") }}
+                                    {{ form.rating(class="form-select") }}
+                                    {% if form.rating.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.rating.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                    {{ form.submit(class="btn btn-primary") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% elif upload_type == 'assessment' %}
+                    <!-- Assessment Results Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Add Assessment Results</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('data_bp.upload_assessment') }}">
+                                {{ form.hidden_tag() }}
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        {{ form.assessment_name.label(class="form-label") }}
+                                        {{ form.assessment_name(class="form-control") }}
+                                        {% if form.assessment_name.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.assessment_name.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.assessment_type.label(class="form-label") }}
+                                        {{ form.assessment_type(class="form-select") }}
+                                        {% if form.assessment_type.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.assessment_type.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        {{ form.date_taken.label(class="form-label") }}
+                                        {{ form.date_taken(class="form-control") }}
+                                        {% if form.date_taken.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.date_taken.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ form.score.label(class="form-label") }}
+                                        {{ form.score(class="form-control") }}
+                                        {% if form.score.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.score.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ form.max_score.label(class="form-label") }}
+                                        {{ form.max_score(class="form-control") }}
+                                        {% if form.max_score.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.max_score.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.skill_area.label(class="form-label") }}
+                                    {{ form.skill_area(class="form-select") }}
+                                    {% if form.skill_area.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.skill_area.errors %}
+                                                <small>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.feedback.label(class="form-label") }}
+                                    {{ form.feedback(class="form-control", rows=3) }}
+                                </div>
+
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                    {{ form.submit(class="btn btn-primary") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% elif upload_type == 'vocabulary' %}
+                    <!-- Vocabulary Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Add Vocabulary</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('data_bp.upload_vocabulary') }}">
+                                {{ form.hidden_tag() }}
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        {{ form.word.label(class="form-label") }}
+                                        {{ form.word(class="form-control") }}
+                                        {% if form.word.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.word.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.translation.label(class="form-label") }}
+                                        {{ form.translation(class="form-control") }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.definition.label(class="form-label") }}
+                                    {{ form.definition(class="form-control", rows=2) }}
+                                </div>
+
+                                <div class="mb-3">
+                                    {{ form.context.label(class="form-label") }}
+                                    {{ form.context(class="form-control", rows=2) }}
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        {{ form.category.label(class="form-label") }}
+                                        {{ form.category(class="form-control") }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.level.label(class="form-label") }}
+                                        {{ form.level(class="form-select") }}
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                    {{ form.submit(class="btn btn-primary") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Bulk Upload Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Bulk Data Upload</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text mb-4">Import data from CSV or Excel files for quick bulk uploads of
+                            vocabulary, assessment results, or study logs.</p>
+
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('data_bp.bulk_upload') }}">
+                            {{ bulk_form.hidden_tag() }}
+
+                            <div class="drop-zone mb-3" id="dropZone">
+                                <p class="mb-2"><strong>Drag and drop files here</strong></p>
+                                <p class="text-muted mb-2">or</p>
+                                <label for="{{ bulk_form.file.id }}" class="btn btn-outline-primary mb-2">Browse
+                                    Files</label>
+                                {{ bulk_form.file(class="d-none", accept=".csv,.xlsx,.txt") }}
+                                <p class="text-muted small mt-2">Supported formats: .csv, .xlsx, .txt</p>
+                                <div id="fileInfo" class="mt-2"></div>
+                            </div>
+
+                            {% if bulk_form.file.errors %}
+                                <div class="text-danger mb-3">
+                                    {% for error in bulk_form.file.errors %}
                                         <small>{{ error }}</small>
                                     {% endfor %}
                                 </div>
                             {% endif %}
-                        </div>
 
-                        <div class="mb-3">
-                            {{ form.notes.label(class="form-label") }}
-                            {{ form.notes(class="form-control", rows=3, placeholder="What did you learn? What was challenging?") }}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.rating.id }}" class="form-label">
-                                {{ form.rating.label.text }} (1-5)
-                            </label>
-                            {{ form.rating(class="form-range range-field", min=1, max=5, id="sessionRating") }}
-                            <div class="d-flex justify-content-between text-muted small">
-                                <span>1 - Not productive</span>
-                                <span>5 - Very productive</span>
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
-                    </form>
-                </div>
-            </div>
-            {% elif upload_type == 'assessment' %}
-            <!-- Assessment Results Form -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Add Assessment Results</h5>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ url_for('data_bp.upload_assessment') }}">
-                        {{ form.hidden_tag() }}
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                {{ form.assessment_name.label(class="form-label") }}
-                                {{ form.assessment_name(class="form-control") }}
-                                {% if form.assessment_name.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.assessment_name.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.assessment_type.label(class="form-label") }}
-                                {{ form.assessment_type(class="form-select") }}
-                                {% if form.assessment_type.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.assessment_type.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                {{ form.date_taken.label(class="form-label") }}
-                                {{ form.date_taken(class="form-control") }}
-                                {% if form.date_taken.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.date_taken.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4">
-                                {{ form.score.label(class="form-label") }}
-                                {{ form.score(class="form-control") }}
-                                {% if form.score.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.score.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4">
-                                {{ form.max_score.label(class="form-label") }}
-                                {{ form.max_score(class="form-control") }}
-                                {% if form.max_score.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.max_score.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.skill_area.label(class="form-label") }}
-                            {{ form.skill_area(class="form-select") }}
-                            {% if form.skill_area.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.skill_area.errors %}
-                                        <small>{{ error }}</small>
-                                    {% endfor %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    {{ bulk_form.overwrite(class="form-check-input") }}
+                                    {{ bulk_form.overwrite.label(class="form-check-label") }}
                                 </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.feedback.label(class="form-label") }}
-                            {{ form.feedback(class="form-control", rows=3) }}
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
-                    </form>
-                </div>
-            </div>
-            {% elif upload_type == 'vocabulary' %}
-            <!-- Vocabulary Form -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Add Vocabulary</h5>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ url_for('data_bp.upload_vocabulary') }}">
-                        {{ form.hidden_tag() }}
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                {{ form.word.label(class="form-label") }}
-                                {{ form.word(class="form-control") }}
-                                {% if form.word.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.word.errors %}
-                                            <small>{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
+                                {{ bulk_form.submit(class="btn btn-primary", disabled=True) }}
                             </div>
-                            <div class="col-md-6">
-                                {{ form.translation.label(class="form-label") }}
-                                {{ form.translation(class="form-control") }}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.definition.label(class="form-label") }}
-                            {{ form.definition(class="form-control", rows=2) }}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.context.label(class="form-label") }}
-                            {{ form.context(class="form-control", rows=2) }}
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                {{ form.category.label(class="form-label") }}
-                                {{ form.category(class="form-control") }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.level.label(class="form-label") }}
-                                {{ form.level(class="form-select") }}
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('data_bp.upload') }}" class="btn btn-outline-secondary me-md-2">Cancel</a>
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
-                    </form>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Bulk Upload Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Bulk Data Upload</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text mb-4">Import data from CSV or Excel files for quick bulk uploads of vocabulary, assessment results, or study logs.</p>
-
-                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('data_bp.bulk_upload') }}">
-                        {{ bulk_form.hidden_tag() }}
-
-                        <div class="drop-zone mb-3" id="dropZone">
-                            <p class="mb-2"><strong>Drag and drop files here</strong></p>
-                            <p class="text-muted mb-2">or</p>
-                            <label for="{{ bulk_form.file.id }}" class="btn btn-outline-primary mb-2">Browse Files</label>
-                            {{ bulk_form.file(class="d-none", accept=".csv,.xlsx,.txt") }}
-                            <p class="text-muted small mt-2">Supported formats: .csv, .xlsx, .txt</p>
-                            <div id="fileInfo" class="mt-2"></div>
-                        </div>
-
-                        {% if bulk_form.file.errors %}
-                            <div class="text-danger mb-3">
-                                {% for error in bulk_form.file.errors %}
-                                    <small>{{ error }}</small>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="form-check">
-                                {{ bulk_form.overwrite(class="form-check-input") }}
-                                {{ bulk_form.overwrite.label(class="form-check-label") }}
-                            </div>
-                            {{ bulk_form.submit(class="btn btn-primary", disabled=True) }}
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/upload_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/upload_data.js') }}"></script>
 {% endblock %}
