@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_login import login_required, current_user
+
+from app.routes.api import api_bp
 from config import Config
 from app.extensions import db, migrate, login_manager
 from app.models import Data, SharedData, DataType, SharedPermission
@@ -30,6 +32,7 @@ def create_app(config_class=Config):
         app.register_blueprint(auth_bp)
         app.register_blueprint(data_bp)
         app.register_blueprint(exercise_bp)
+        app.register_blueprint(api_bp)
 
         # db.create_all()
 

@@ -56,11 +56,3 @@ def reset_password():
 @main_bp.route('/settings')
 def settings():
     return render_template('settings.html', title='Settings')
-
-@main_bp.route('/share_data')
-def share_data():
-    return render_template('share_data.html', title='Share Data')
-
-@main_bp.route('/visualize_data')
-def visualize_data():
-    return render_template('visualize_data.html', title='Visualize Data')
