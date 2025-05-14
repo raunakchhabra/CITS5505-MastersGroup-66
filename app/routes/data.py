@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_required, current_user
-from app.models import db, Data, DataType, Studylog, SharedData
+from app.models import db, Data, DataType, Studylog, SharedData, User
 from app.forms import (StudySessionForm, AssessmentResultForm, VocabularyForm,
                        LearningGoalForm, BulkUploadForm)
 from datetime import datetime, timedelta
@@ -202,9 +202,20 @@ def my_data():
     # Get all user's data
     user_data = Data.query.filter_by(user_id=current_user.id).order_by(Data.created_at.desc()).all()
 
-    # Get data shared with user
-    shared_data = db.session.query(Data).join(SharedData, Data.id == SharedData.data_id) \
-        .filter(SharedData.recipient_id == current_user.id).all()
+    # Get data shared with user - need to join with User table to get owner info
+    shared_data_with_owners = db.session.query(Data, User).join(
+        SharedData, Data.id == SharedData.data_id
+    ).join(
+        User, User.id == Data.user_id
+    ).filter(
+        SharedData.recipient_id == current_user.id
+    ).all()
+
+    # Create a list of data objects with owner info attached
+    shared_data = []
+    for data, owner in shared_data_with_owners:
+        data.owner = owner  # Attach owner info to data object
+        shared_data.append(data)
 
     return render_template('my_data.html', user_data=user_data, shared_data=shared_data)
 
@@ -224,6 +235,17 @@ def view(id):
             return redirect(url_for('data_bp.my_data'))
 
     return render_template('view_data.html', data=data)
+
+
+@data_bp.route('/share_data')
+@login_required
+def share_data():
+    return render_template('share_data.html', title='Share Data')
+
+@data_bp.route('/visualize_data')
+@login_required
+def visualize_data():
+    return render_template('visualize_data.html', title='Visualize Data')
 
 
 @data_bp.route('/delete/<int:id>', methods=['POST'])
@@ -250,6 +272,8 @@ def delete(id):
     flash('Data deleted successfully.', 'success')
     return redirect(url_for('data_bp.my_data'))
 
+
+# Helper functions
 
 def get_recent_uploads(user_id, limit=5):
     """Get recent uploads for the sidebar"""

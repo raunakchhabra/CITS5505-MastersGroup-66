@@ -1,85 +1,216 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share with Friends - LinguaTrack</title>
-    <link rel="stylesheet" href="/static/css/share_data.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar-container">
-            <div class="nav-left">
-                <div class="hamburger-menu">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
+{% extends "base.html" %}
+
+{% block title %}Share Data{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/share_data.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" style="margin-top: 70px">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <h5 class="mb-3">Share Options</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-tab="users">
+                            <span class="me-2">👥</span> Share with Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="groups">
+                            <span class="me-2">👨‍👩‍👧‍👦</span> Manage Groups
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="shared-with-me">
+                            <span class="me-2">🔄</span> Shared with Me
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-tab="history">
+                            <span class="me-2">📊</span> Sharing History
+                        </a>
+                    </li>
+                </ul>
+
+                <h5 class="mt-4 mb-3">Quick Share</h5>
+                <div class="list-group mb-3" id="quick-share-groups">
+                    <!-- Will be populated by JavaScript -->
                 </div>
-                <a href="{{ url_for('main.index') }}" class="logo">LinguaTrack</a>
-                <div class="dropdown-menu left-dropdown">
-                    <ul class="dropdown-list">
-                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                        <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
-                        <li><a href="{{ url_for('exercise_bp.exercises') }}">Exercises</a></li>
-                        <li><a href="{{ url_for('main.community') }}">Community</a></li>
-                        <li><a href="{{ url_for('main.about') }}">About</a></li>
-                    </ul>
+
+                <div class="alert alert-info mt-4">
+                    <small><strong>Remember:</strong> You control what data you share and with whom. Your privacy is important to us.</small>
                 </div>
             </div>
-            <div class="nav-right">
-                <div class="data-menu">
-                    <span class="data-text">Data</span>
-                    <div class="dropdown-menu data-dropdown">
-                        <ul class="dropdown-list">
-                            <li><a href="{{ url_for('main.upload_data') }}">Upload Data</a></li>
-                            <li><a href="{{ url_for('main.view_data') }}">Visualize Data</a></li>
-                            <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
-                        </ul>
-                    </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Share Your Progress</h2>
+                    <button class="btn btn-primary" id="create-share-btn">Create New Share</button>
                 </div>
-                <div class="user-profile">
-                    <span class="username">User</span>
-                    <div class="dropdown-menu right-dropdown">
-                        <ul class="dropdown-list">
-                            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                            <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
-                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        </ul>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs" id="shareTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">Individuals</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups" type="button" role="tab">Groups</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="shared-with-me-tab" data-bs-toggle="tab" data-bs-target="#shared-with-me" type="button" role="tab">Shared with Me</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">Sharing History</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="shareTabContent">
+                    <!-- Individual Users Tab -->
+                    <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                        <div class="row g-3 mb-4">
+                            <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="search-users" placeholder="Search users by name or email...">
+                                    <button class="btn btn-outline-secondary" type="button" id="search-users-btn">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-outline-primary w-100" id="add-user-btn">Add New User</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" id="shared-users-container">
+                            <!-- User cards will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Groups Tab -->
+                    <div class="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+                        <div class="row mb-4">
+                            <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="search-groups" placeholder="Search groups...">
+                                    <button class="btn btn-outline-secondary" type="button" id="search-groups-btn">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-outline-primary w-100" id="create-group-btn">Create New Group</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" id="share-groups-container">
+                            <!-- Group cards will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Shared with Me Tab -->
+                    <div class="tab-pane fade" id="shared-with-me" role="tabpanel" aria-labelledby="shared-with-me-tab">
+                        <div class="mb-4">
+                            <h5>Data Shared with You</h5>
+                            <p class="text-muted">View data that others have shared with you</p>
+                        </div>
+                        <div class="row g-3" id="shared-with-me-container">
+                            <!-- Shared data cards will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- History Tab -->
+                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                        <div class="mb-4">
+                            <h5>Recent Sharing Activity</h5>
+                            <p class="text-muted">Track who you've shared data with and when</p>
+                        </div>
+
+                        <div class="timeline" id="share-history-container">
+                            <!-- History items will be dynamically loaded here -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main class="share-data-main">
-        <section class="share-friends-section">
-            <h2>Share with Friends</h2>
-            <p class="instruction">Enter your friend's username or email to share your learning progress.</p>
-            <div class="share-input-group">
-                <input type="text" id="friend-identifier" placeholder="Username or Email">
-                <button class="share-button">Share</button>
+    <!-- New Share Modal -->
+    <div class="modal fade" id="newShareModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Share Your Learning Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="share-form">
+                        <div class="mb-3">
+                            <label class="form-label">Share with:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="share-recipient" placeholder="Enter email or username">
+                                <button class="btn btn-outline-secondary" type="button" id="search-recipient-btn">Search</button>
+                            </div>
+                            <div id="recipient-suggestions" class="suggestions-box mt-2"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Select data to share:</label>
+                            <div id="data-selection-container">
+                                <!-- Data items will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Access level:</label>
+                            <select class="form-select" id="share-permission">
+                                <option value="read" selected>Read-only access</option>
+                                <option value="edit">Edit access</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Add a message (optional):</label>
+                            <textarea class="form-control" id="share-message" rows="3" placeholder="Add a personal note"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-share-btn">Share</button>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="shared-list-container">
-                <h3>Currently Sharing With</h3>
-                <ul id="shared-friends-list">
-                    <li class="shared-friend-item">
-                        <span class="friend-name">Friend 1</span>
-                        <button class="revoke-share-button">Revoke</button>
-                    </li>
-                    <li class="shared-friend-item">
-                        <span class="friend-name">Another Friend</span>
-                        <button class="revoke-share-button">Revoke</button>
-                    </li>
-                    </ul>
-                <p id="no-shared-friends" class="empty-message">You are not currently sharing with anyone.</p>
+    <!-- Create Group Modal -->
+    <div class="modal fade" id="createGroupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-group-form">
+                        <div class="mb-3">
+                            <label class="form-label">Group Name</label>
+                            <input type="text" class="form-control" id="group-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description (optional)</label>
+                            <textarea class="form-control" id="group-description" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-create-group-btn">Create Group</button>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
+{% endblock %}
 
-    <footer>
-        <p>© 2025 LinguaTrack</p>
-    </footer>
-    <script src="/static/js/share.js"></script>
-</body>
-</html>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/share_data.js') }}"></script>
+{% endblock %}
