@@ -57,9 +57,13 @@ class StudySessionForm(FlaskForm):
 
     notes = TextAreaField('Notes and Reflections')
 
-    rating = IntegerField('How productive was this session?',
-                          validators=[NumberRange(min=1, max=5)],
-                          default=3)
+    rating = SelectField('Session Rating', choices=[
+        ('1', '1 - Not productive'),
+        ('2', '2 - Slightly productive'),
+        ('3', '3 - Moderately productive'),
+        ('4', '4 - Productive'),
+        ('5', '5 - Very productive')
+    ])
 
     submit = SubmitField('Save Session')
 

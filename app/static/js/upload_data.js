@@ -397,24 +397,3 @@ document.addEventListener('submit', function(e) {
     }
 });
 
-// Add before unload warning for unsaved changes
-window.addEventListener('beforeunload', function(e) {
-    const forms = document.querySelectorAll('form');
-    let hasUnsavedChanges = false;
-
-    forms.forEach(form => {
-        const inputs = form.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            if (input.type !== 'file' && input.type !== 'submit') {
-                if (input.value !== input.defaultValue) {
-                    hasUnsavedChanges = true;
-                }
-            }
-        });
-    });
-
-    if (hasUnsavedChanges) {
-        e.preventDefault();
-        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
-    }
-});
