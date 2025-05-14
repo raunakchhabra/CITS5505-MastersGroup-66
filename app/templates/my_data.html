@@ -80,7 +80,7 @@
                                 <p class="card-text text-muted">{{ data.description|truncate(100) }}</p>
                                 {% endif %}
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Shared by {{ data.user.name }}</small>
+                                    <small class="text-muted">Shared by {{ data.owner.name }}</small>
                                     <a href="{{ url_for('data_bp.view', id=data.id) }}" class="btn btn-sm btn-outline-primary">View</a>
                                 </div>
                             </div>
