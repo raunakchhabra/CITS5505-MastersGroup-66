@@ -13,6 +13,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the page
     initializePage();
 
+    // Consolidate user data to prevent duplicate cards
+    function consolidateUserData(users) {
+        const userMap = new Map();
+
+        users.forEach(user => {
+            const userId = user.id;
+
+            if (userMap.has(userId)) {
+                // Merge shared data for existing user
+                const existingUser = userMap.get(userId);
+
+                // Merge shared_data arrays
+                const existingDataTypes = new Set(existingUser.shared_data.map(d => d.type));
+                user.shared_data.forEach(data => {
+                    if (!existingDataTypes.has(data.type)) {
+                        existingUser.shared_data.push(data);
+                    } else {
+                        // Update existing data type if needed
+                        const existingData = existingUser.shared_data.find(d => d.type === data.type);
+                        if (existingData && data.shared) {
+                            existingData.shared = true;
+                        }
+                    }
+                });
+
+                // Use the most permissive permission
+                if (user.permission === 'edit' || existingUser.permission === 'edit') {
+                    existingUser.permission = 'edit';
+                }
+            } else {
+                // Add new user to map
+                userMap.set(userId, {
+                    ...user,
+                    shared_data: [...user.shared_data]
+                });
+            }
+        });
+
+        return Array.from(userMap.values());
+    }
+
     function initializePage() {
         loadSharedUsers();
         loadShareGroups();
@@ -97,7 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const userCards = users.map(user => createUserCard(user)).join('');
+        // Consolidate users by ID to prevent duplicate cards
+        const consolidatedUsers = consolidateUserData(users);
+        const userCards = consolidatedUsers.map(user => createUserCard(user)).join('');
         container.innerHTML = userCards + createAddUserCard();
     }
 
@@ -585,6 +628,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 showAlert('Data shared successfully!', 'success');
                 newShareModal.hide();
+                // Reset the form
+                document.getElementById('share-form').reset();
+                selectedDataItems = [];
+                currentRecipient = null;
+                // Reload the shared users list
                 loadSharedUsers();
                 loadShareHistory();
             } else {
