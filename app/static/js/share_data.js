@@ -372,7 +372,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function createSharedDataCard(data) {
         const typeBadgeClass = `data-type-${data.data_type}`;
         const typeLabel = data.data_type.replace('_', ' ').charAt(0).toUpperCase() + data.data_type.slice(1);
-
+        const date = new Date(data.created_at);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
         return `
             <div class="col-md-6 col-lg-4">
                 <div class="shared-data-card">
@@ -381,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="data-type-badge ${typeBadgeClass}">${typeLabel}</span>
                     </div>
                     <p class="text-muted mb-2">Shared by: ${data.owner_name}</p>
-                    <p class="text-muted mb-2">Shared on: ${formatDate(data.created_at)}</p>
+                    <p class="text-muted mb-2">Shared on: ${formattedDate}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="permission-icon permission-${data.permission} me-2">
                             <span>${data.permission === 'read' ? 'R' : 'E'}</span>
