@@ -27,28 +27,48 @@ It enables:
 
 ---
 
+
 ## ⚙️ Setup Instructions
 
 1. **Clone the repository:**  
-   `git clone https://github.com/raunakchhabra/CITS5505-MastersGroup-66.git`
+  `git clone https://github.com/raunakchhabra/CITS5505-MastersGroup-66.git`
 
 2. **Activate virtual environment:**  
-   `source pyvenv/bin/activate`
+  `source pyvenv/bin/activate`
 
 3. **Install dependencies:**  
-   `pip install -r requirements.txt`
+  `pip install -r requirements.txt`
 
-4. **Run the application:**  
-   `python3 run.py`
+4. **Set up environment variables:**
+  
+  - Copy the example environment file:  
+    `cp .flaskenv.example .flaskenv`
+  
+  - Edit `.flaskenv` with your configuration:
+    ```bash
+    # Edit the file and replace with your actual values
+    nano .flaskenv  # or use your preferred text editor
+    ```
+  
+  - Key variables to update:
+    - `SECRET_KEY`: Generate a secure key using `python -c "import secrets; print(secrets.token_hex(16))"`
+    - `MAIL_USERNAME`: Your Gmail address for sending emails
+    - `MAIL_PASSWORD`: Your Gmail app password (not regular password)
+    - Database paths and other settings as needed
 
-5. **Database migration**
-```bash
-# 1. Skip the problematic migration
-flask db stamp 78294d82a87b
-# 2. Apply the remaining migrations
-flask db upgrade head
+5. **Database migration:**
+  ```bash
+  # 1. Skip the problematic migration
+  flask db stamp 78294d82a87b
+  # 2. Apply the remaining migrations
+  flask db upgrade head
 ```
-   
+6. **Run the application:**
+```bash
+python3 run.py
+```
+The application will automatically load environment variables from `.flaskenv`.
+
 ---
 
 ## 🏗️ Project Features
