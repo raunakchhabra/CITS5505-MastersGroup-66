@@ -697,10 +697,14 @@ def visualization_data():
     for log in study_logs:
         skills = log.skills.split(',') if log.skills else []
         minutes = log.duration_minutes or 0
+        if not skills:
+            continue
+        minutes_per_skill = minutes / len(skills)
         total_minutes += minutes
         for skill in skills:
             if skill in skill_distribution:
-                skill_distribution[skill] += minutes
+                skill_distribution[skill] += minutes_per_skill
+
 
     # Convert to hours and percentages
     distribution_data = {}
