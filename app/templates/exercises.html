@@ -19,7 +19,16 @@
     </nav>
 </header>
 <main>
-    <h1>Spanish Exercise - Lesson 3</h1>
+    <h1>{{ lang.capitalize() }} Exercise</h1>
+    {% if lang == 'spanish' %}
+        <p class="tip">Tip: Use words like "Hola", "Gracias", "Adiós"</p>
+    {% elif lang == 'french' %}
+        <p class="tip">Tip: Use words like "Bonjour", "Merci", "Au revoir"</p>
+    {% elif lang == 'japanese' %}
+        <p class="tip">ヒント：「こんにちは」「ありがとう」など基本の単語を覚えましょう。</p>
+    {% else %}
+        <p class="tip">General language tips will go here.</p>
+    {% endif %}
     <div class="progress-tracker">
         <span id="question-counter">Question 1 of 5</span>
         <div class="progress-bar">
