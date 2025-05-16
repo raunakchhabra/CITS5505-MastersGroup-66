@@ -706,16 +706,51 @@ def visualization_data():
                 skill_distribution[skill] += minutes_per_skill
 
 
-    # Convert to hours and percentages
-    distribution_data = {}
-    total_hours = total_minutes / 60
+    # Step 1: Collect raw distribution data including hours and unrounded percentage
+    raw_distribution = []
+    non_zero_items = []
+
     for skill, minutes in skill_distribution.items():
         hours = minutes / 60
-        percentage = (minutes / total_minutes * 100) if total_minutes > 0 else 0
-        distribution_data[skill] = {
+        percent = (minutes / total_minutes * 100) if total_minutes > 0 else 0
+        entry = {
+            'skill': skill,
             'hours': round(hours, 1),
-            'percentage': round(percentage, 1)
+            'percent': percent,
+            'is_zero': minutes == 0
         }
+        raw_distribution.append(entry)
+        if minutes > 0:
+            non_zero_items.append(entry)
+
+    # Step 2: round all non-zero items except last
+    distribution_data = {}
+    accumulated = 0.0
+    for i, item in enumerate(non_zero_items):
+        if i < len(non_zero_items) - 1:
+            rounded = round(item['percent'], 1)
+            accumulated += rounded
+            distribution_data[item['skill']] = {
+                'hours': item['hours'],
+                'percentage': rounded
+            }
+        else:
+            # last non-zero item: compensate rounding error
+            rounded = round(100.0 - accumulated, 1)
+            distribution_data[item['skill']] = {
+                'hours': item['hours'],
+                'percentage': rounded
+            }
+
+    # Step 3: fill in the zero items with 0%
+    for item in raw_distribution:
+        if item['is_zero']:
+            distribution_data[item['skill']] = {
+                'hours': item['hours'],
+                'percentage': 0.0
+            }
+
+
 
     # Vocabulary growth (assuming active/passive split is estimated)
     vocab_data = []
