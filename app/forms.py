@@ -1,3 +1,4 @@
+#forms.py
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import PasswordField
@@ -6,9 +7,6 @@ from wtforms import (StringField, IntegerField, TextAreaField, SelectField,
                      BooleanField, DateField, SubmitField)
 from wtforms.validators import DataRequired, NumberRange, Length, Optional
 from datetime import date
-
-
-
 
 class RegistrationForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])

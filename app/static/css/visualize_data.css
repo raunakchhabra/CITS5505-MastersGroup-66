@@ -1,6 +1,19 @@
 /* Import base styles from share_data.css */
-@import url('share_data.css');
+/* @import url('share_data.css'); */
 
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.visualize-data-main {
+    margin-top: var(--navbar-height); 
+}
 /* Styles specific to the Visualize Data page */
 .visualize-data-main {
     padding: 2rem 3rem;
@@ -137,4 +150,32 @@ footer {
     margin-top: 2rem;
     border-top: 1px solid #e0f2f7;
 
+}
+.chart-wrapper {
+    position: relative;
+    padding: 1rem;
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 400px; 
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.time-selector .time-button:hover {
+    background-color: #0033cc;
+    color: white;
+}
+
+
+.chart-wrapper.loading::before {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0040ff;
+    font-size: 1rem;
 }

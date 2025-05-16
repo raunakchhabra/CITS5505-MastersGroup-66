@@ -1,57 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualize Data - LinguaTrack</title>
-    <link rel="stylesheet" href="/static/css/visualize_data.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar-container">
-            <div class="nav-left">
-                <div class="hamburger-menu">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <a href="{{ url_for('main.index') }}" class="logo">LinguaTrack</a>
-                <div class="dropdown-menu left-dropdown">
-                    <ul class="dropdown-list">
-                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                        <li><a href="{{ url_for('main.courses') }}">Courses</a></li>
-                        <li><a href="{{ url_for('exercise_bp.exercises') }}">Exercises</a></li>
-                        <li><a href="{{ url_for('main.community') }}">Community</a></li>
-                        <li><a href="{{ url_for('main.about') }}">About</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="nav-right">
-                <div class="data-menu">
-                    <span class="data-text">Data</span>
-                    <div class="dropdown-menu data-dropdown">
-                        <ul class="dropdown-list">
-                            <li><a href="{{ url_for('data_bp.upload') }}">Upload Data</a></li>
-                            <li><a href="{{ url_for('data_bp.my_data') }}">My Data</a></li>
-                            <li><a href="{{ url_for('main.visualize_data') }}">Visualize Data</a></li>
-                            <li><a href="{{ url_for('main.share_data') }}">Share Data</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="user-profile">
-                    <span class="username">User</span>
-                    <div class="dropdown-menu right-dropdown">
-                        <ul class="dropdown-list">
-                            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                            <li><a href="{{ url_for('main.settings') }}">Settings</a></li>
-                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+{% extends "base.html" %}
+{% block title %}Visualize Data{% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/visualize_data.css') }}">
+{% endblock %}
+
+{% block content %}
     <main class="visualize-data-main">
         <section class="visualization-section">
             <h2>Visualize Your Progress</h2>
@@ -60,52 +14,49 @@
             <div class="chart-container">
                 <div class="chart-card">
                     <h3>Overall Progress</h3>
-                    <div class="chart-placeholder">
-                        <p>Progress Trend Chart</p>
-                        <p class="sub-text">Line chart showing skill progression over time</p>
+                    <div class="chart-wrapper">
+                        <canvas id="progressTrendChart"></canvas>
                         <div class="time-selector">
-                            <button class="time-button active">Last 7 Days</button>
-                            <button class="time-button">Last 30 Days</button>
+                            <button class="time-button active" data-days="7">Last 7 Days</button>
+                            <button class="time-button" data-days="30">Last 30 Days</button>
                         </div>
                         <div class="insights-row">
-                            <div class="insight-item">Overall Growth: <span>+42%</span></div>
-                            <div class="insight-item">Most Improved: <span>Listening</span></div>
-                            <div class="insight-item">Least Improved: <span>Speaking</span></div>
-                            <div class="insight-item">Current Level: <span>B1</span></div>
+                            <div class="insight-item">Overall Growth: <span id="growth">-</span></div>
+                            <div class="insight-item">Most Improved: <span id="mostImproved">-</span></div>
+                            <div class="insight-item">Least Improved: <span id="leastImproved">-</span></div>
+                            <div class="insight-item">Current Level: <span id="currentLevel">-</span></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="chart-card">
                     <h3>Study Time Distribution</h3>
-                    <div class="chart-placeholder">
-                        <p>Time Distribution Chart</p>
-                        <p class="sub-text">Pie chart showing time spent by skill</p>
+                    <div class="chart-wrapper">
+                        <canvas id="timeDistributionChart"></canvas>
                         <div class="distribution-details">
-                            <div>Reading: <span></span> hours (<span></span>%)</div>
-                            <div>Writing: <span></span> hours (<span></span>%)</div>
-                            <div>Listening: <span></span> hours (<span></span>%)</div>
-                            <div>Speaking: <span></span> hours (<span></span>%)</div>
-                            <div>Grammar: <span></span> hours (<span></span>%)</div>
+                            <div>Reading: <span id="readingHours"></span> hours (<span id="readingPercent"></span>%)</div>
+                            <div>Writing: <span id="writingHours"></span> hours (<span id="writingPercent"></span>%)</div>
+                            <div>Listening: <span id="listeningHours"></span> hours (<span id="listeningPercent"></span>%)</div>
+                            <div>Speaking: <span id="speakingHours"></span> hours (<span id="speakingPercent"></span>%)</div>
+                            <div>Grammar: <span id="grammarHours"></span> hours (<span id="grammarPercent"></span>%)</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="chart-card">
                     <h3>Skill Radar</h3>
-                    <div class="chart-placeholder">
-                        <p>Skills Assessment Chart</p>
-                        <p class="sub-text">Radar chart showing performance across skills</p>
+                    <div class="chart-wrapper">
+                        <canvas id="skillRadarChart"></canvas>
                         <div class="time-selector">
-                            <button class="time-button active">Last 7 Days</button>
-                            <button class="time-button">Last 30 Days</button>
+                            <button class="time-button active" data-days="7">Last 7 Days</button>
+                            <button class="time-button" data-days="30">Last 30 Days</button>
                         </div>
                         <div class="insights-list">
                             <p>Key Insights:</p>
                             <ul>
-                                <li>Your reading skill is your strongest area (<span></span>/100)</li>
-                                <li>Speaking shows the most room for improvement (<span></span>/100)</li>
-                                <li>Listening has improved by <span></span>% in the last month</li>
+                                <li>Your strongest area: <span id="strongestSkill">-</span> (<span id="strongestScore">-</span>/100)</li>
+                                <li>Needs most improvement: <span id="weakestSkill">-</span> (<span id="weakestScore">-</span>/100)</li>
+                                <li>Listening growth: <span id="listeningGrowth">-</span></li>
                             </ul>
                         </div>
                     </div>
@@ -113,23 +64,24 @@
 
                 <div class="chart-card">
                     <h3>Vocabulary Growth</h3>
-                    <div class="chart-placeholder">
-                        <p>Vocabulary Acquisition Chart</p>
-                        <p class="sub-text">Area chart showing active and passive vocabulary growth</p>
+                    <div class="chart-wrapper">
+                        <canvas id="vocabGrowthChart"></canvas>
                         <div class="vocabulary-details">
-                            <div>Active Vocabulary: <span>487</span> (+<span>52</span> this month)</div>
-                            <div>Passive Vocabulary: <span>1,245</span> (+<span>107</span> this month)</div>
-                            <div>Vocabulary Level: <span>B1+</span> (Upper Intermediate)</div>
+                            <div>Active Vocabulary: <span id="activeVocab">-</span> (+<span id="activeVocabGrowth">-</span>)</div>
+                            <div>Passive Vocabulary: <span id="passiveVocab">-</span> (+<span id="passiveVocabGrowth">-</span>)</div>
+                            <div>Vocabulary Level: <span id="vocabLevel">-</span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+{% endblock %}
 
-    <footer>
-        <p>© 2025 LinguaTrack</p>
-    </footer>
-    <script src="/static/js/visualize.js"></script>
-</body>
-</html>
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <script>const current_user_id = {{ current_user.id }}</script>
+    <script src="{{ url_for('static', filename='js/visualize.js') }}"></script>
+{% endblock %}
