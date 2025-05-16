@@ -13,8 +13,13 @@ from datetime import datetime, timedelta
 app = create_app()
 with app.app_context():
     # check if user exists
-    user_id = 1
-    user = User.query.get(user_id)
+    user = User.query.filter_by(email="test@example.com").first()
+    if not user:
+        user = User(name="Test User", email="test@example.com")
+        user.set_password("password")
+        db.session.add(user)
+        db.session.commit()
+    user_id = user.id
     if not user:
         print(f"User with ID {user_id} does not exist. Please create a user first.")
         user = User(name="Test User", email="test@example.com")
