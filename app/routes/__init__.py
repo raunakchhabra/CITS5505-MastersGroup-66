@@ -1,4 +1,4 @@
-#app/__init__.py
+#__init__.py
 from flask import Flask
 from flask_login import LoginManager  # Corrected import
 from flask_socketio import SocketIO
