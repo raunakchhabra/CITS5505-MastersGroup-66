@@ -1,4 +1,4 @@
-#app/routes/api.py
+# app/routes/api.py
 import logging
 from datetime import datetime, timedelta, timezone
 import json
@@ -6,9 +6,9 @@ from app.extensions import db
 from flask import Blueprint, jsonify, request, url_for, Flask, flash, redirect
 from flask_login import login_required, current_user
 from flask_socketio import emit
+
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
-
 
 from app.models import (
     Data,
@@ -18,11 +18,12 @@ from app.models import (
     SharedPermission,
     DataType,
     User,
-    Progress,  # Assuming these are in models.py
+    Progress,
     Studylog,
 )
-from app import socketio  # Import socketio
-from app.forms import StudySessionForm #Import the form
+# Import socketio from extensions instead of app
+from app.extensions import socketio
+from app.forms import StudySessionForm
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -42,7 +43,6 @@ def get_shared_data_types(owner_id: int, recipient_id: int, db_session: Session)
         .distinct()
         .all()
     )
-
 
 @api_bp.route("/shared_users")
 @login_required
@@ -635,7 +635,7 @@ def visualization_data():
     progress_data = Progress.query.filter_by(user_id=user_id).order_by(Progress.date.desc()).limit(days).all()
     studylog_data = Studylog.query.filter_by(user_id=user_id).order_by(Studylog.date.desc()).limit(days).all()
 
-    
+
     skill_trends = []
     distribution_data = {}
     radar_data = {}

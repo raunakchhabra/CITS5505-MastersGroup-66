@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 app = create_app()
 with app.app_context():
     # check if user exists
-    user_id = 1
+    user_id = 100
     user = User.query.get(user_id)
     if not user:
         print(f"User with ID {user_id} does not exist. Please create a user first.")

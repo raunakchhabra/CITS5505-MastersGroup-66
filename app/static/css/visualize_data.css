@@ -1,37 +1,25 @@
-/* Import base styles from share_data.css */
-/* @import url('share_data.css'); */
-
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: var(--white);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-
-.visualize-data-main {
-    margin-top: var(--navbar-height); 
-}
+/* static/css/visualize_data.css */
 /* Styles specific to the Visualize Data page */
+
+/* Main layout with proper spacing */
 .visualize-data-main {
     padding: 2rem 3rem;
-    margin-top: 56px; /* Adjust for fixed navbar height */
+    margin-top: var(--navbar-height);
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Chart container and cards */
 .visualization-section h2 {
     font-size: 1.75rem;
-    color: #0040ff;
+    color: var(--secondary-color);
     margin-bottom: 1rem;
     text-align: center;
 }
 
 .visualization-section p.instruction {
-    color: #555;
+    color: var(--text-light);
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -44,37 +32,52 @@
 }
 
 .chart-card {
-    background-color: #fff;
+    background-color: var(--white);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-bottom: 2px solid #e0f2f7;
+    box-shadow: 0 2px 4px var(--shadow-light);
+    border-bottom: 2px solid var(--border-lighter);
 }
 
 .chart-card h3 {
     font-size: 1.25rem;
-    color: #333;
+    color: var(--text-dark);
     margin-bottom: 1rem;
 }
 
-.chart-placeholder {
-    background-color: #f9f9f9;
-    border: 1px dashed #ccc;
-    border-radius: 6px;
-    padding: 2rem;
-    text-align: center;
-    color: #777;
+/* Chart wrapper and canvas */
+.chart-wrapper {
+    position: relative;
+    padding: 1rem;
+    min-height: 250px;
 }
 
-.chart-placeholder p {
-    margin-bottom: 0.5rem;
+canvas {
+    max-width: 100%;
+    max-height: 400px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
 }
 
-.chart-placeholder .sub-text {
-    font-size: 0.9rem;
-    color: #999;
+/* Loading state */
+.chart-wrapper.loading {
+    opacity: 0.6;
 }
 
+.chart-wrapper.loading::before {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    z-index: 10;
+}
+
+/* Time selector buttons */
 .time-selector {
     margin-top: 1rem;
     display: flex;
@@ -83,8 +86,8 @@
 }
 
 .time-selector .time-button {
-    background-color: #e0f2f7;
-    color: #0040ff;
+    background-color: var(--border-lighter);
+    color: var(--secondary-color);
     border: 1px solid #b0e0e6;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -93,12 +96,18 @@
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.time-selector .time-button.active {
-    background-color: #0040ff;
-    color: white;
-    border-color: #0033cc;
+.time-selector .time-button:hover {
+    background-color: var(--secondary-hover);
+    color: var(--white);
 }
 
+.time-selector .time-button.active {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border-color: var(--secondary-hover);
+}
+
+/* Insights styles */
 .insights-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -108,21 +117,21 @@
 }
 
 .insight-item {
-    background-color: #f0f8ff;
+    background-color: var(--bg-lighter);
     padding: 0.75rem;
     border-radius: 4px;
-    color: #555;
+    color: var(--text-light);
     font-size: 0.9rem;
 }
 
 .insight-item span {
     font-weight: bold;
-    color: #0040ff;
+    color: var(--secondary-color);
 }
 
 .distribution-details, .insights-list, .vocabulary-details {
     margin-top: 1rem;
-    color: #555;
+    color: var(--text-light);
     font-size: 0.95rem;
 }
 
@@ -137,45 +146,28 @@
 
 .insights-list li::before {
     content: "• ";
-    color: #0040ff;
+    color: var(--secondary-color);
     font-weight: bold;
 }
 
-/* Footer */
-footer {
-    background-color: #f0f8ff;
-    color: #777;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 2rem;
-    border-top: 1px solid #e0f2f7;
-
-}
-.chart-wrapper {
-    position: relative;
-    padding: 1rem;
+/* Fix for canvas rendering */
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9;
 }
 
-canvas {
-    max-width: 100%;
-    max-height: 400px; 
-    height: auto;
-    margin: 0 auto;
-    display: block;
-}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .visualize-data-main {
+        padding: 1.5rem 1rem;
+    }
 
-.time-selector .time-button:hover {
-    background-color: #0033cc;
-    color: white;
-}
+    .chart-container {
+        grid-template-columns: 1fr;
+    }
 
-
-.chart-wrapper.loading::before {
-    content: 'Loading...';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #0040ff;
-    font-size: 1rem;
+    .insights-row {
+        grid-template-columns: 1fr 1fr;
+    }
 }

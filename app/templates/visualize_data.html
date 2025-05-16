@@ -34,11 +34,11 @@
                     <div class="chart-wrapper">
                         <canvas id="timeDistributionChart"></canvas>
                         <div class="distribution-details">
-                            <div>Reading: <span id="readingHours"></span> hours (<span id="readingPercent"></span>%)</div>
-                            <div>Writing: <span id="writingHours"></span> hours (<span id="writingPercent"></span>%)</div>
-                            <div>Listening: <span id="listeningHours"></span> hours (<span id="listeningPercent"></span>%)</div>
-                            <div>Speaking: <span id="speakingHours"></span> hours (<span id="speakingPercent"></span>%)</div>
-                            <div>Grammar: <span id="grammarHours"></span> hours (<span id="grammarPercent"></span>%)</div>
+                            <div>Reading: <span id="readingHours">-</span> hours (<span id="readingPercent">-</span>%)</div>
+                            <div>Writing: <span id="writingHours">-</span> hours (<span id="writingPercent">-</span>%)</div>
+                            <div>Listening: <span id="listeningHours">-</span> hours (<span id="listeningPercent">-</span>%)</div>
+                            <div>Speaking: <span id="speakingHours">-</span> hours (<span id="speakingPercent">-</span>%)</div>
+                            <div>Grammar: <span id="grammarHours">-</span> hours (<span id="grammarPercent">-</span>%)</div>
                         </div>
                     </div>
                 </div>
@@ -79,9 +79,15 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <!-- Correct loading order: jQuery first, then other libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
-    <script>const current_user_id = {{ current_user.id }}</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <!-- Make sure current_user_id is defined before loading the visualization script -->
+    <script>
+        // Safely define current_user_id, providing a fallback if undefined
+        const current_user_id = {{ current_user.id | default('null') }};
+        console.log('Current user ID:', current_user_id);
+    </script>
     <script src="{{ url_for('static', filename='js/visualize.js') }}"></script>
 {% endblock %}
