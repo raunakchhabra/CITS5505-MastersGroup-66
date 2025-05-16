@@ -13,17 +13,13 @@ from datetime import datetime, timedelta
 app = create_app()
 with app.app_context():
     # check if user exists
-    user_id = 100
-    user = User.query.get(user_id)
+    user = User.query.filter_by(email="test@example.com").first()
     if not user:
-        print(f"User with ID {user_id} does not exist. Please create a user first.")
         user = User(name="Test User", email="test@example.com")
         user.set_password("password")
         db.session.add(user)
         db.session.commit()
-        user_id = user.id
-        print(f"Created new user with ID {user_id}")
-
+    user_id = user.id
     # to delete existing test data
     Progress.query.filter_by(user_id=user_id).delete()
     Studylog.query.filter_by(user_id=user_id).delete()

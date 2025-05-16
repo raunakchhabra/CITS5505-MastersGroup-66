@@ -697,21 +697,25 @@ def visualization_data():
     for log in study_logs:
         skills = log.skills.split(',') if log.skills else []
         minutes = log.duration_minutes or 0
-        total_minutes += minutes
+        if not skills:
+            continue
+        minutes_per_skill = minutes / len(skills)
         for skill in skills:
             if skill in skill_distribution:
-                skill_distribution[skill] += minutes
+                skill_distribution[skill] += minutes_per_skill
+                total_minutes += minutes_per_skill
 
-    # Convert to hours and percentages
+
+    # Compute hours and raw percentage per skill
     distribution_data = {}
-    total_hours = total_minutes / 60
     for skill, minutes in skill_distribution.items():
         hours = minutes / 60
-        percentage = (minutes / total_minutes * 100) if total_minutes > 0 else 0
+        percent = (minutes / total_minutes * 100) if total_minutes > 0 else 0
         distribution_data[skill] = {
             'hours': round(hours, 1),
-            'percentage': round(percentage, 1)
+            'percentage': round(percent, 1)
         }
+
 
     # Vocabulary growth (assuming active/passive split is estimated)
     vocab_data = []
