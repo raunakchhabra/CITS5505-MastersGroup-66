@@ -700,10 +700,10 @@ def visualization_data():
         if not skills:
             continue
         minutes_per_skill = minutes / len(skills)
-        total_minutes += minutes
         for skill in skills:
             if skill in skill_distribution:
                 skill_distribution[skill] += minutes_per_skill
+                total_minutes += minutes_per_skill
 
 
     # Compute hours and raw percentage per skill
