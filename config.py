@@ -21,7 +21,6 @@ class Config:
     ).lower() == 'true'
 
     UPLOAD_FOLDER = os.path.join(basedir, os.environ.get('UPLOAD_FOLDER', 'app/uploads'))
-    MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB
 
 
 # ✅ Test configuration for unit tests
