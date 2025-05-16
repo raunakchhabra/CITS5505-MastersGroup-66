@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="purpose">Purpose: ${course.purpose.charAt(0).toUpperCase() + course.purpose.slice(1)}</span>
                     <span class="level">Level: ${course.level.toUpperCase()}</span>
                 </div>
-                <button class="join-button">Join</button>
+                <a href="/exercise/exercises" class="join-button">Join</a>
             `;
             courseListSection.appendChild(courseCard);
         });
