@@ -166,7 +166,7 @@
     background-color: #27ae60;
 }
 
-.course-card .join-button {
+/* .course-card .join-button {
     background-color: var(--secondary-color);
     color: var(--white);
     border: none;
@@ -177,7 +177,7 @@
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
     box-shadow: 0 2px 4px rgba(0, 64, 255, 0.2);
     width: 100%;
-}
+} */
 
 .course-card .join-button:hover {
     background-color: var(--secondary-hover);
@@ -233,3 +233,30 @@
         font-size: 1rem;
     }
 }
+
+/* Join  */
+.join-row {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 10px;
+}
+
+.lang-label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.join-button {
+    padding: 6px 14px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+}
+

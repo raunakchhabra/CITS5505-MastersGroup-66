@@ -8,7 +8,9 @@ exercise_bp = Blueprint('exercise_bp', __name__, url_prefix='/exercise')
 
 @exercise_bp.route('/exercises')
 def exercises():
-    return render_template('exercises.html')
+    lang = request.args.get('lang', 'spanish') 
+    return render_template('exercises.html', lang=lang)
+
 
 @exercise_bp.route('/submit', methods=['POST'])
 @login_required
